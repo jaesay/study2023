@@ -16,6 +16,7 @@
   <description>licensing-service</description>
   <properties>
     <java.version>11</java.version>
+    <docker.image.prefix>ostack</docker.image.prefix>
   </properties>
   <dependencies>
     <dependency>
@@ -55,6 +56,9 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
+          <image>
+            <name>${docker.image.prefix}/${project.artifactId}:${project.version}</name>
+          </image>
           <excludes>
             <exclude>
               <groupId>org.projectlombok</groupId>
