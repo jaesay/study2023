@@ -1,1 +1,1 @@
-DELETE http://127.0.0.1:8080/v1/organization/1/license/1
+DELETE http://localhost:8080/v1/organization/e839ee96-28de-4f67-bb79-870ca89743a0/license/c456a6c4-99c7-45a9-97d0-7aa7196794c3
