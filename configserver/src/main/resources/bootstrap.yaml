@@ -3,7 +3,9 @@ spring:
     name: config-server
 # 파일 시스템 사용
   profiles:
-    active: native #, git, vault
+    active: native
+#    active: git
+#    active: vault
   cloud:
     config:
       server:
@@ -11,7 +13,7 @@ spring:
         native:
           search-locations: classpath:/config
 #        git:
-#          uri: https://github.com/jaesay/config.git
+#          uri: https://github.com/jaesay/config-backend.git
 #          searchPaths: licensing-service
 #        vault:
 #          port: 8200
