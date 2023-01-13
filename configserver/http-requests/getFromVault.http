@@ -1,0 +1,6 @@
+# curl -X "GET" "http://localhost:8071/licensing-service/default" -H "X-Config-Token:myroot"
+GET http://localhost:8071/licensing-service/default
+X-Config-Token: myroot
+
+###
+
