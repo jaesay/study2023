@@ -1,1 +1,3 @@
 - https://www.baeldung.com/spring-vault
+- https://www.youtube.com/watch?v=JDBcCvY0hmI
+- https://www.testcontainers.org/modules/vault/
