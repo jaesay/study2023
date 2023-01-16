@@ -1,0 +1,14 @@
+spring.cloud.vault:
+  uri: http://localhost:8200
+  token: my-root-token
+  kv:
+    enabled: true
+    backend: secret
+    profile-separator: '/'
+    default-context: application
+    application-name: my-app
+#    profiles: local, cloud
+
+#spring.config.import: vault://
+
+
