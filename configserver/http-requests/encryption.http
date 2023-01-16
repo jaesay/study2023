@@ -1,0 +1,13 @@
+### 암호화
+POST http://localhost:8071/encrypt
+
+postgres
+
+> {%
+client.global.set("encrypted", response.body);
+ %}
+
+### 복호화
+POST http://localhost:8071/decrypt
+
+{{encrypted}}

@@ -1,0 +1,5 @@
+### default
+GET http://localhost:8071/licensing-service/default
+
+### dev
+GET http://localhost:8071/licensing-service/dev
