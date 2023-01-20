@@ -25,6 +25,8 @@ services:
     image: ostock/configserver:0.0.1-SNAPSHOT
     ports:
        - "8071:8071"
+    environment:
+      ENCRYPT_KEY: "secretKey"
     networks:
       backend:
         aliases:
