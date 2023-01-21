@@ -1,0 +1,29 @@
+example:
+  property: I AM THE DEFAULT
+
+spring:
+  jpa:
+    hibernate.ddl-auto: none
+    database: POSTGRESQL
+    show-sql: true
+    hibernate.naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    platform: postgres
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  database:
+    driverClassName: org.postgresql.Driver
+
+management:
+  endpoints:
+    web.exposure.include: "*"
+    enabled-by-default: true
+
+eureka:
+  instance:
+    preferIpAddress: true # 서비스 이름 대신 서비스 IP 주소 등록
+  client:
+    registerWithEureka: true # 유레카 서비스 등록 여부
+    fetchRegistry: true # 레지스트리 사본을 로컬에 내려받기
+    serviceUrl.defaultZone: http://eurekaserver:8070/eureka/ # 유레카 서비스의 위치 설정

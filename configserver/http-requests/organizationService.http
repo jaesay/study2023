@@ -1,0 +1,5 @@
+### default
+GET http://localhost:8071/organization-service/default
+
+### dev
+GET http://localhost:8071/organization-service/dev

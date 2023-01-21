@@ -1,0 +1,10 @@
+### 레지스트리의 조직 서비스 조회
+GET http://127.0.0.1:8070/eureka/apps/ORGANIZATION-SERVICE
+Accept: application/json
+
+### 레지스트리의 라이센스 서비스 조회
+GET http://127.0.0.1:8070/eureka/apps/LICENSING-SERVICE
+Accept: application/json
+
+### 유레카 대시보드
+GET http://127.0.0.1:8070
