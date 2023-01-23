@@ -8,14 +8,21 @@ import com.optimagrowth.license.repository.LicenseRepository;
 import com.optimagrowth.license.service.client.OrganizationDiscoveryClient;
 import com.optimagrowth.license.service.client.OrganizationFeignClient;
 import com.optimagrowth.license.service.client.OrganizationRestTemplateClient;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class LicenseService {
 
   private final MessageSource messages;
@@ -24,6 +31,29 @@ public class LicenseService {
   private final OrganizationFeignClient organizationFeignClient;
   private final OrganizationRestTemplateClient organizationRestClient;
   private final OrganizationDiscoveryClient organizationDiscoveryClient;
+
+  @CircuitBreaker(name = "licenseService")
+  public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
+    randomlyRunLong();
+    return licenseRepository.findByOrganizationId(organizationId)
+        .stream().map(License::from)
+        .collect(Collectors.toList());
+  }
+
+  private void randomlyRunLong() throws TimeoutException {
+    Random rand = new Random();
+    int randomNum = rand.nextInt(3) + 1;
+    if (randomNum == 3) sleep();
+  }
+
+  private void sleep() throws TimeoutException {
+    try {
+      Thread.sleep(5000);
+      throw new TimeoutException();
+    } catch (InterruptedException e) {
+      log.error(e.getMessage());
+    }
+  }
 
   public License getLicense(String licenseId, String organizationId, String clientType){
     License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId)

@@ -10,3 +10,25 @@ spring:
 #  cloud:
 #    config:
 #      uri: http://configserver:8071
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      licenseService: # 라이선싱 서비스의 인스턴스 구성(회로 차단기 애너테이션에 전달되는 이름과 동일)
+        register-health-indicator: true # 상태 정보 엔드포인트에 대한 구성 정보 노출 여부를 설정한다.
+        sliding-window-size: 2 # 서킷 브레이커가 닫혔을 때 호출 결과를 기록할 슬라이딩 윈도우 크기를 설정한다.
+        sliding-window-type: COUNT_BASED # 서킷 브레이커가 닫혔을 때 호출 결과를 기록할 슬라이딩 윈도우 타입을 설정한다.
+        wait-duration-in-open-state: 10s # 열린 상태의 대기 시간을 설정한다.
+        failure-rate-threshold: 10 # 실패율 임계치를 백분율(%)로 설정한다.
+        record-exceptions: # 실패로 기록될 예외를 설정한다.
+          - org.springframework.web.client.HttpServerErrorException
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+          - org.springframework.web.client.ResourceAccessException
+
+      organizationService:
+        register-health-indicator: true
+        sliding-window-size: 2
+        sliding-window-type: COUNT_BASED
+        wait-duration-in-open-state: 10s
+        failure-rate-threshold: 10

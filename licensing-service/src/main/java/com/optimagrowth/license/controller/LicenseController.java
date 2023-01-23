@@ -5,6 +5,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.optimagrowth.license.model.License;
 import com.optimagrowth.license.service.LicenseService;
+import java.util.List;
+import java.util.concurrent.TimeoutException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class LicenseController {
 
   private final LicenseService licenseService;
+
+  @GetMapping
+  public List<License> getLicenses( @PathVariable("organizationId") String organizationId) throws TimeoutException {
+    return licenseService.getLicensesByOrganization(organizationId);
+  }
 
   @GetMapping(value = "/{licenseId}/{clientType}")
   public License getLicensesWithClient(@PathVariable("organizationId") String organizationId,
