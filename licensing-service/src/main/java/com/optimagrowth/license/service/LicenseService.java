@@ -32,12 +32,17 @@ public class LicenseService {
   private final OrganizationRestTemplateClient organizationRestClient;
   private final OrganizationDiscoveryClient organizationDiscoveryClient;
 
-  @CircuitBreaker(name = "licenseService")
+  @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
   public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
     randomlyRunLong();
     return licenseRepository.findByOrganizationId(organizationId)
         .stream().map(License::from)
         .collect(Collectors.toList());
+  }
+
+  private List<License> buildFallbackLicenseList(String organizationId, Throwable t) {
+    log.error(t.getMessage());
+    return List.of(License.createUnavailableLicense(organizationId));
   }
 
   private void randomlyRunLong() throws TimeoutException {

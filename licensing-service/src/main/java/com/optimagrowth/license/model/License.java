@@ -19,6 +19,14 @@ public class License extends RepresentationModel<License> {
   private String contactPhone;
   private String contactEmail;
 
+  public static License createUnavailableLicense(String organizationId) {
+    License license = new License();
+    license.licenseId = "0000000-00-00000";
+    license.organizationId = organizationId;
+    license.productName = "Sorry no licensing information currently available";
+    return license;
+  }
+
   public static License from(LicenseEntity entity) {
     License license = new License();
     license.licenseId = entity.getLicenseId();
