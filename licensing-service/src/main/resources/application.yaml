@@ -54,3 +54,20 @@ resilience4j.thread-pool-bulkhead:
       queueCapacity: 1
 #      keep-alive-duration: 20ms
 #      writableStackTraceEnabled: true
+
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 3
+      waitDuration: 100
+      retryExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.util.concurrent.TimeoutException
+        - java.io.IOException
+  instances:
+    retryLicenseService:
+      max-attempts: 5
+      wait-duration: 10000
+      retry-exceptions:
+        - java.util.concurrent.TimeoutException
