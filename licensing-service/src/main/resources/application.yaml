@@ -11,8 +11,7 @@ spring:
 #    config:
 #      uri: http://configserver:8071
 
-resilience4j:
-  circuitbreaker:
+resilience4j.circuitbreaker:
     instances:
       licenseService: # 라이선싱 서비스의 인스턴스 구성(회로 차단기 애너테이션에 전달되는 이름과 동일)
         register-health-indicator: true # 상태 정보 엔드포인트에 대한 구성 정보 노출 여부를 설정한다.
@@ -33,3 +32,25 @@ resilience4j:
         sliding-window-type: COUNT_BASED
         wait-duration-in-open-state: 10s
         failure-rate-threshold: 10
+
+#resilience4j.bulkhead:
+#  instances:
+#    bulkheadLicenseService:
+#      maxWaitDuration: 10ms
+#      maxConcurrentCalls: 20
+
+resilience4j.thread-pool-bulkhead:
+  configs:
+    default:
+      maxThreadPoolSize: 4
+      coreThreadPoolSize: 2
+      queueCapacity: 2
+  instances:
+#    backendA:
+#      baseConfig: default
+    bulkheadLicenseService:
+      maxThreadPoolSize: 1
+      coreThreadPoolSize: 1
+      queueCapacity: 1
+#      keep-alive-duration: 20ms
+#      writableStackTraceEnabled: true
