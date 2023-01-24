@@ -11,6 +11,12 @@ spring:
 #    config:
 #      uri: http://configserver:8071
 
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.optimagrowth: DEBUG
+
 resilience4j.circuitbreaker:
     instances:
       licenseService: # 라이선싱 서비스의 인스턴스 구성(회로 차단기 애너테이션에 전달되는 이름과 동일)

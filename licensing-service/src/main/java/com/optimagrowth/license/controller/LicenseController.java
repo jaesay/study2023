@@ -5,9 +5,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.optimagrowth.license.model.License;
 import com.optimagrowth.license.service.LicenseService;
+import com.optimagrowth.license.utils.UserContextHolder;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping(value = "v1/organization/{organizationId}/license")
 public class LicenseController {
 
@@ -27,6 +30,7 @@ public class LicenseController {
 
   @GetMapping
   public List<License> getLicenses( @PathVariable("organizationId") String organizationId) throws TimeoutException {
+    log.debug("LicenseController#getLicenses > Thread Name: {}, Correlation Id: {}", Thread.currentThread().getName(), UserContextHolder.getContext().getCorrelationId());
     return licenseService.getLicensesByOrganization(organizationId);
   }
 

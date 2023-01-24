@@ -8,6 +8,7 @@ import com.optimagrowth.license.repository.LicenseRepository;
 import com.optimagrowth.license.service.client.OrganizationDiscoveryClient;
 import com.optimagrowth.license.service.client.OrganizationFeignClient;
 import com.optimagrowth.license.service.client.OrganizationRestTemplateClient;
+import com.optimagrowth.license.utils.UserContextHolder;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead.Type;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -41,6 +42,7 @@ public class LicenseService {
   @Retry(name = "retryLicenseService", fallbackMethod = "buildFallbackLicenseList")
   @RateLimiter(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
   public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
+    log.debug("LicenseService#getLicensesByOrganization > Thread Name: {}, Correlation Id: {}", Thread.currentThread().getName(), UserContextHolder.getContext().getCorrelationId());
     randomlyRunLong();
     return licenseRepository.findByOrganizationId(organizationId)
         .stream().map(License::from)
@@ -48,6 +50,7 @@ public class LicenseService {
   }
 
   private List<License> buildFallbackLicenseList(String organizationId, Throwable t) {
+    log.debug("LicenseService#buildFallbackLicenseList > Thread Name: {}, Correlation Id: {}", Thread.currentThread().getName(), UserContextHolder.getContext().getCorrelationId());
     log.error(t.getMessage());
     return List.of(License.createUnavailableLicense(organizationId));
   }
