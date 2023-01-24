@@ -71,3 +71,16 @@ resilience4j.retry:
       wait-duration: 10000
       retry-exceptions:
         - java.util.concurrent.TimeoutException
+
+resilience4j.ratelimiter:
+  configs:
+    default:
+      registerHealthIndicator: false
+      limitForPeriod: 10
+      limitRefreshPeriod: 1s
+      timeoutDuration: 0
+      eventConsumerBufferSize: 100
+    licenseService:
+      timeoutDuration: 1s # 스레드가 허용을 기다리는 시간을 정의한다.
+      limitRefreshPeriod: 500ms # 갱신 제한 기간을 정의한다.
+      limitForPeriod: 5 # 갱신 제한 기간 동안 가용한 허용 수를 정의한다.
