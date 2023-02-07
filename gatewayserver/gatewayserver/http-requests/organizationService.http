@@ -1,0 +1,2 @@
+# 조직 조회
+GET http://localhost:8072/organization/v1/organization/e839ee96-28de-4f67-bb79-870ca89743a0
