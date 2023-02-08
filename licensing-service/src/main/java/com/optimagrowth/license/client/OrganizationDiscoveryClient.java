@@ -1,6 +1,6 @@
-package com.optimagrowth.license.service.client;
+package com.optimagrowth.license.client;
 
-import com.optimagrowth.license.model.Organization;
+import com.optimagrowth.license.Organization;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.ServiceInstance;

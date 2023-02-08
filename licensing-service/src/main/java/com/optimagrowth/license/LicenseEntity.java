@@ -1,4 +1,4 @@
-package com.optimagrowth.license.model;
+package com.optimagrowth.license;
 
 import java.util.Objects;
 import javax.persistence.Entity;

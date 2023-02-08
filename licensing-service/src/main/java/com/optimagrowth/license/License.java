@@ -1,4 +1,4 @@
-package com.optimagrowth.license.model;
+package com.optimagrowth.license;
 
 import lombok.Getter;
 import lombok.Setter;

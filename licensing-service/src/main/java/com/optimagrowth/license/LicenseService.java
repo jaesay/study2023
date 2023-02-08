@@ -1,14 +1,9 @@
-package com.optimagrowth.license.service;
+package com.optimagrowth.license;
 
-import com.optimagrowth.license.config.ServiceConfig;
-import com.optimagrowth.license.model.License;
-import com.optimagrowth.license.model.LicenseEntity;
-import com.optimagrowth.license.model.Organization;
-import com.optimagrowth.license.repository.LicenseRepository;
-import com.optimagrowth.license.service.client.OrganizationDiscoveryClient;
-import com.optimagrowth.license.service.client.OrganizationFeignClient;
-import com.optimagrowth.license.service.client.OrganizationRestTemplateClient;
-import com.optimagrowth.license.utils.UserContextHolder;
+import com.optimagrowth.license.client.OrganizationDiscoveryClient;
+import com.optimagrowth.license.client.OrganizationFeignClient;
+import com.optimagrowth.license.client.OrganizationRestTemplateClient;
+import com.optimagrowth.license.usercontext.UserContextHolder;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead.Type;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -32,7 +27,7 @@ public class LicenseService {
 
   private final MessageSource messages;
   private final LicenseRepository licenseRepository;
-  private final ServiceConfig config;
+  private final CommentConfigProps commentConfigProps;
   private final OrganizationFeignClient organizationFeignClient;
   private final OrganizationRestTemplateClient organizationRestClient;
   private final OrganizationDiscoveryClient organizationDiscoveryClient;
@@ -81,7 +76,7 @@ public class LicenseService {
     Organization organization = retrieveOrganizationInfo(organizationId, clientType);
     license.setOrganization(organization);
 
-    return license.withComment(config.getProperty());
+    return license.withComment(commentConfigProps.getComment());
   }
 
   private Organization retrieveOrganizationInfo(String organizationId, String clientType) {
@@ -118,18 +113,18 @@ public class LicenseService {
                     new String[]{licenseId, organizationId}, Locale.getDefault()),
                 licenseId, organizationId)));
 
-    return license.withComment(config.getProperty());
+    return license.withComment(commentConfigProps.getComment());
   }
 
   public License createLicense(License license) {
     license.setLicenseId(UUID.randomUUID().toString());
     licenseRepository.save(LicenseEntity.from(license));
-    return license.withComment(config.getProperty());
+    return license.withComment(commentConfigProps.getComment());
   }
 
   public License updateLicense(License license) {
     licenseRepository.save(LicenseEntity.from(license));
-    return license.withComment(config.getProperty());
+    return license.withComment(commentConfigProps.getComment());
   }
 
   public String deleteLicense(String licenseId) {

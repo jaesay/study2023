@@ -1,6 +1,6 @@
-package com.optimagrowth.license.service.client;
+package com.optimagrowth.license.client;
 
-import com.optimagrowth.license.model.Organization;
+import com.optimagrowth.license.Organization;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;

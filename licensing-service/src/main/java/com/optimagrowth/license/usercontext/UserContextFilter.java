@@ -1,4 +1,4 @@
-package com.optimagrowth.license.utils;
+package com.optimagrowth.license.usercontext;
 
 import java.io.IOException;
 import javax.servlet.Filter;

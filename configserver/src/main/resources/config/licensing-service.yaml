@@ -1,5 +1,5 @@
 example:
-  property: I AM THE DEFAULT
+  comment: I AM THE DEFAULT
 
 spring:
   jpa:

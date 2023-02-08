@@ -1,6 +1,6 @@
 package com.optimagrowth.license;
 
-import com.optimagrowth.license.utils.UserContextInterceptor;
+import com.optimagrowth.license.usercontext.UserContextInterceptor;
 import java.util.Locale;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

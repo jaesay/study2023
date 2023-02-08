@@ -1,6 +1,6 @@
-package com.optimagrowth.license.service.client;
+package com.optimagrowth.license.client;
 
-import com.optimagrowth.license.model.Organization;
+import com.optimagrowth.license.Organization;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
