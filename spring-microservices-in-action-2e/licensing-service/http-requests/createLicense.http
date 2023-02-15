@@ -1,0 +1,10 @@
+POST http://localhost:8080/v1/organization/e839ee96-28de-4f67-bb79-870ca89743a0/license
+Content-Type: application/json
+Accept-Language: en
+
+{
+  "description": "Software product",
+  "organizationId": "e839ee96-28de-4f67-bb79-870ca89743a0",
+  "productName": "Ostock",
+  "licenseType": "complete"
+}

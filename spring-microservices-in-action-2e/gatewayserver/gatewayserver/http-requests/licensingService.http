@@ -1,0 +1,3 @@
+### 라이센스 조회
+GET http://localhost:8072/license/v1/organization/e839ee96-28de-4f67-bb79-870ca89743a0/license/279709ff-e6d5-4a54-8b55-a5c37542025b
+# GET http://localhost:8072/licensing-service/v1/organization/e839ee96-28de-4f67-bb79-870ca89743a0/license/279709ff-e6d5-4a54-8b55-a5c37542025b

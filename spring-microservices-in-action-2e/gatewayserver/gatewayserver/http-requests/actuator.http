@@ -1,0 +1,8 @@
+### 게이트웨이 서버가 관리하는 경로 확인
+GET http://localhost:8072/actuator/gateway/routes
+
+### 라우팅 구성 정보 다시 로드
+POST http://localhost:8072/actuator/gateway/refresh
+
+### 필터 조회
+GET http://localhost:8072/actuator/gateway/globalfilters

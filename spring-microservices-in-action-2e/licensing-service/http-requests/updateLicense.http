@@ -1,0 +1,10 @@
+PUT http://localhost:8080/v1/organization/e839ee96-28de-4f67-bb79-870ca89743a0/license/279709ff-e6d5-4a54-8b55-a5c37542025b
+Content-Type: application/json
+
+{
+  "licenseId": "279709ff-e6d5-4a54-8b55-a5c37542025b",
+  "organizationId": "e839ee96-28de-4f67-bb79-870ca89743a0",
+  "description": "Software product",
+  "productName": "Ostock",
+  "licenseType": "full"
+}
