@@ -2,6 +2,7 @@ package com.optimagrowth.license.client;
 
 import com.optimagrowth.license.Organization;
 import lombok.RequiredArgsConstructor;
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class OrganizationRestTemplateClient {
 
-  private final RestTemplate restTemplate;
+  private final KeycloakRestTemplate restTemplate;
 
   public Organization getOrganization(String organizationId) {
     ResponseEntity<Organization> restExchange =

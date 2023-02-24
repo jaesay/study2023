@@ -27,3 +27,13 @@ eureka:
     registerWithEureka: true # 유레카 서비스 등록 여부
     fetchRegistry: true # 레지스트리 사본을 로컬에 내려받기
     serviceUrl.defaultZone: http://eurekaserver:8070/eureka/ # 유레카 서비스의 위치 설정
+
+keycloak:
+  realm: spmia-realm # 생성된 realm 이름
+  auth-server-url: http://keycloak:8080/auth # 키클록 서버 URL 인증 엔드포인트: http://<keycloak_server_url>/auth
+  ssl-required: external
+  resource: ostock # 생성된 클라이언트 ID
+  credentials:
+    secret: G0PcUGEmI87EXNBzd49iva5JHfr9lKVq # 생성된 클라이언트 시크릿
+  use-resource-role-mappings: true
+  bearer-only: true

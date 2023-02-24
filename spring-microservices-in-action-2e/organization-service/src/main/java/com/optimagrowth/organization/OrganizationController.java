@@ -1,5 +1,6 @@
 package com.optimagrowth.organization;
 
+import javax.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,23 +21,27 @@ public class OrganizationController {
 
   private final OrganizationService service;
 
+  @RolesAllowed({"ADMIN", "USER"})
   @GetMapping(value = "/{organizationId}")
   public ResponseEntity<Organization> getOrganization(
       @PathVariable("organizationId") String organizationId) {
     return ResponseEntity.ok(service.findById(organizationId));
   }
 
+  @RolesAllowed({"ADMIN", "USER"})
   @PutMapping(value = "/{organizationId}")
   public void updateOrganization(@PathVariable("organizationId") String id,
       @RequestBody Organization organization) {
     service.update(organization);
   }
 
+  @RolesAllowed({"ADMIN", "USER"})
   @PostMapping
   public ResponseEntity<Organization> saveOrganization(@RequestBody Organization organization) {
     return ResponseEntity.ok(service.create(organization));
   }
 
+  @RolesAllowed("ADMIN")
   @DeleteMapping(value = "/{organizationId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteOrganization(@PathVariable("id") String id,

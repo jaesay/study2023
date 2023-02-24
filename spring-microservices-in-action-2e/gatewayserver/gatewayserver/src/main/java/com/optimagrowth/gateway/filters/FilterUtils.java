@@ -1,6 +1,7 @@
 package com.optimagrowth.gateway.filters;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -37,4 +38,12 @@ public class FilterUtils {
     return this.setRequestHeader(exchange, CORRELATION_ID, correlationId);
   }
 
+  public String getAuthToken(HttpHeaders requestHeaders) {
+    if (requestHeaders.get(AUTH_TOKEN) != null) {
+      List<String> header = requestHeaders.get(AUTH_TOKEN);
+      return header.stream().findFirst().get();
+    } else {
+      return null;
+    }
+  }
 }
