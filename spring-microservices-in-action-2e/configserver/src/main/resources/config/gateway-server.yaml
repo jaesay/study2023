@@ -23,7 +23,6 @@ spring:
         - Path=/organization/**
         filters:
         - RewritePath=/organization/(?<path>.*), /$\{path}
-        - RemoveRequestHeader= Cookie,Set-Cookie # 엑세스 토큰 전파(Authorization 전파 허용): 기본적으로 게이트웨이는 Cookie, Set-Cookie, Authorization 등 민감한 HTTP 헤더를 하위 서비스에 저장하지 않는다. 이 구성 프로퍼티는 게이트웨이가 하위 서비스로 전파하지 않는 민감한 헤더들에 대한 블랙리스트이다.
       - id: licensing-service
         uri: lb://licensing-service
         predicates:
