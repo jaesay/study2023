@@ -17,5 +17,5 @@ public class UserContext {
   private String correlationId = "";
   private String authToken = "";
   private String userId = "";
-  private String organizationId = "";
+  private String organizationId = ""; // 변수를 ThreadLocal로 저장하면 현재 쓰레드에 대한 데이터를 쓰레드 별로 저장할 수 있다. 여기에 설정된 정보는 그 값을 설정한 쓰레드만 읽을 수 있다.
 }

@@ -30,3 +30,12 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl.defaultZone: http://eurekaserver:8070/eureka/
+
+spring.cloud.stream:
+  bindings.output:
+    destination: orgChangeTopic # 메시지를 작성할 메시지큐(또는 토픽) 이름이다.
+    content-type: application/json # 송수신할 메시지 타입을 제공한다. (이 경우 JSON 이다.)
+  kafka.binder:
+    # 이 프로퍼티들은 카프카와 주키퍼의 네트워크 위치를 제공한다.
+    zkNodes: kafka
+    brokers: kafka

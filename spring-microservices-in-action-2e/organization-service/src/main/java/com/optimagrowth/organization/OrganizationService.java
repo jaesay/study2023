@@ -1,5 +1,6 @@
 package com.optimagrowth.organization;
 
+import com.optimagrowth.organization.events.SimpleSourceBean;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class OrganizationService {
 
   private final OrganizationRepository repository;
+  private final SimpleSourceBean simpleSourceBean;
 
   public Organization findById(String organizationId) {
     return repository.findById(organizationId)
@@ -19,6 +21,7 @@ public class OrganizationService {
   public Organization create(Organization organization){
     organization.setId( UUID.randomUUID().toString());
     repository.save(OrganizationEntity.from(organization));
+    simpleSourceBean.publishOrganizationChange("SAVE", organization.getId());
     return organization;
   }
 
