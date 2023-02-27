@@ -1,2 +1,13 @@
-# 조직 조회
+### 조직 조회
 GET http://localhost:8072/organization/v1/organization/e839ee96-28de-4f67-bb79-870ca89743a0
+
+### 조직 생성
+POST http://localhost:8072/organization/v1/organization
+Content-Type: application/json
+
+{
+    "name": "Ostock",
+    "contactName": "jaesay",
+    "contactEmail": "jaesay@gmail.com",
+    "contactPhone": "111111111"
+}

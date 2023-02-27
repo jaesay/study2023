@@ -58,9 +58,4 @@ public class LicensingServiceApplication {
     return restTemplate;
   }
 
-  @StreamListener(Sink.INPUT) // 입력(INPUT) 채널에서 메시지를 받을 때마다 이 메서드를 실행한다.
-	public void loggerSink(OrganizationChangeModel orgChange) {
-		log.debug("Received {} event for the organization id {}", orgChange.getAction(), orgChange.getOrganizationId());
-	}
-
 }
