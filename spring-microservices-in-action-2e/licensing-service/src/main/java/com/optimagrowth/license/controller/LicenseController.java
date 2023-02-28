@@ -1,9 +1,11 @@
-package com.optimagrowth.license;
+package com.optimagrowth.license.controller;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import com.optimagrowth.license.usercontext.UserContextHolder;
+import com.optimagrowth.license.model.License;
+import com.optimagrowth.license.service.LicenseService;
+import com.optimagrowth.license.utils.UserContextHolder;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import lombok.RequiredArgsConstructor;

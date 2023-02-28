@@ -1,9 +1,14 @@
-package com.optimagrowth.license;
+package com.optimagrowth.license.service;
 
+import com.optimagrowth.license.model.License;
+import com.optimagrowth.license.model.LicenseEntity;
+import com.optimagrowth.license.model.Organization;
 import com.optimagrowth.license.client.OrganizationDiscoveryClient;
 import com.optimagrowth.license.client.OrganizationFeignClient;
 import com.optimagrowth.license.client.OrganizationRestTemplateClient;
-import com.optimagrowth.license.usercontext.UserContextHolder;
+import com.optimagrowth.license.config.CommentConfigProps;
+import com.optimagrowth.license.repository.LicenseRepository;
+import com.optimagrowth.license.utils.UserContextHolder;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead.Type;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;

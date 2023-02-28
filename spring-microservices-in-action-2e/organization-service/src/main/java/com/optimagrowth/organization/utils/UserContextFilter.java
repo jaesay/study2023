@@ -1,4 +1,4 @@
-package com.optimagrowth.organization.usercontext;
+package com.optimagrowth.organization.utils;
 
 import java.io.IOException;
 import javax.servlet.Filter;

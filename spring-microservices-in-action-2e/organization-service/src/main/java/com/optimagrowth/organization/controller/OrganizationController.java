@@ -1,5 +1,7 @@
-package com.optimagrowth.organization;
+package com.optimagrowth.organization.controller;
 
+import com.optimagrowth.organization.model.Organization;
+import com.optimagrowth.organization.service.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

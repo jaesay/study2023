@@ -1,6 +1,9 @@
-package com.optimagrowth.organization;
+package com.optimagrowth.organization.service;
 
 import com.optimagrowth.organization.events.SimpleSourceBean;
+import com.optimagrowth.organization.model.Organization;
+import com.optimagrowth.organization.model.OrganizationEntity;
+import com.optimagrowth.organization.repository.OrganizationRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

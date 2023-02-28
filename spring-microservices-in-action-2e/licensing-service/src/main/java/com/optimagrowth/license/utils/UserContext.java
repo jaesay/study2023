@@ -1,4 +1,4 @@
-package com.optimagrowth.license.usercontext;
+package com.optimagrowth.license.utils;
 
 import lombok.Getter;
 import lombok.Setter;

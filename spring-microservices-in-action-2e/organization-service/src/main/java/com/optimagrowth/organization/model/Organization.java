@@ -1,4 +1,4 @@
-package com.optimagrowth.organization;
+package com.optimagrowth.organization.model;
 
 import lombok.Data;
 

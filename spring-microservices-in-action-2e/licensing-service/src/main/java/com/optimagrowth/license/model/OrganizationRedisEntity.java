@@ -1,4 +1,4 @@
-package com.optimagrowth.license;
+package com.optimagrowth.license.model;
 
 import javax.persistence.Id;
 import lombok.Data;

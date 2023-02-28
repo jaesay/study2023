@@ -1,4 +1,4 @@
-package com.optimagrowth.organization;
+package com.optimagrowth.organization.model;
 
 import java.util.Objects;
 import javax.persistence.Column;

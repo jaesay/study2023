@@ -1,6 +1,6 @@
 package com.optimagrowth.organization.events;
 
-import com.optimagrowth.organization.usercontext.UserContext;
+import com.optimagrowth.organization.utils.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.messaging.Source;

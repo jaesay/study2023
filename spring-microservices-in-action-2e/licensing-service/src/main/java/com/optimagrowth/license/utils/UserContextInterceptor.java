@@ -1,4 +1,4 @@
-package com.optimagrowth.license.usercontext;
+package com.optimagrowth.license.utils;
 
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;

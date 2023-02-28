@@ -1,9 +1,9 @@
 package com.optimagrowth.license.client;
 
-import com.optimagrowth.license.Organization;
-import com.optimagrowth.license.OrganizationRedisEntity;
-import com.optimagrowth.license.OrganizationRedisRepository;
-import com.optimagrowth.license.usercontext.UserContext;
+import com.optimagrowth.license.model.Organization;
+import com.optimagrowth.license.model.OrganizationRedisEntity;
+import com.optimagrowth.license.repository.OrganizationRedisRepository;
+import com.optimagrowth.license.utils.UserContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
