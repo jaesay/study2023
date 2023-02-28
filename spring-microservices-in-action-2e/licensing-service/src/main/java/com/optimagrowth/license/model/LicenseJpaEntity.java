@@ -11,7 +11,7 @@ import org.hibernate.Hibernate;
 @Entity(name = "licenses")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LicenseEntity {
+public class LicenseJpaEntity {
   @Id
   private String licenseId;
   private String description;
@@ -19,8 +19,8 @@ public class LicenseEntity {
   private String productName;
   private String licenseType;
 
-  public static LicenseEntity from(License license) {
-    LicenseEntity entity = new LicenseEntity();
+  public static LicenseJpaEntity from(License license) {
+    LicenseJpaEntity entity = new LicenseJpaEntity();
     entity.licenseId = license.getLicenseId();
     entity.description = license.getDescription();
     entity.organizationId = license.getOrganizationId();
@@ -37,7 +37,7 @@ public class LicenseEntity {
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
       return false;
     }
-    LicenseEntity that = (LicenseEntity) o;
+    LicenseJpaEntity that = (LicenseJpaEntity) o;
     return licenseId != null && Objects.equals(licenseId, that.licenseId);
   }
 

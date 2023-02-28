@@ -29,7 +29,7 @@ public class LicenseController {
   private final LicenseService licenseService;
 
   @GetMapping
-  public List<License> getLicenses( @PathVariable("organizationId") String organizationId) throws TimeoutException {
+  public List<License> getLicenses(@PathVariable("organizationId") String organizationId) throws TimeoutException {
     log.debug("LicenseController#getLicenses > Thread Name: {}, Correlation Id: {}", Thread.currentThread().getName(), UserContextHolder.getContext().getCorrelationId());
     return licenseService.getLicensesByOrganization(organizationId);
   }

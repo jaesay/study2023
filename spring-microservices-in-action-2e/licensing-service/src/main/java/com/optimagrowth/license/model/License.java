@@ -27,16 +27,6 @@ public class License extends RepresentationModel<License> {
     return license;
   }
 
-  public static License from(LicenseEntity entity) {
-    License license = new License();
-    license.licenseId = entity.getLicenseId();
-    license.description = entity.getDescription();
-    license.organizationId = entity.getOrganizationId();
-    license.productName = entity.getProductName();
-    license.licenseType = entity.getLicenseType();
-    return license;
-  }
-
   public License withComment(String comment){
     this.setComment(comment);
     return this;

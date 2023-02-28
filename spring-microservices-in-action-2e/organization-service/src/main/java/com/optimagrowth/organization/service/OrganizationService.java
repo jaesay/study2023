@@ -2,7 +2,7 @@ package com.optimagrowth.organization.service;
 
 import com.optimagrowth.organization.events.SimpleSourceBean;
 import com.optimagrowth.organization.model.Organization;
-import com.optimagrowth.organization.model.OrganizationEntity;
+import com.optimagrowth.organization.model.OrganizationMapper;
 import com.optimagrowth.organization.repository.OrganizationRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -14,22 +14,23 @@ public class OrganizationService {
 
   private final OrganizationRepository repository;
   private final SimpleSourceBean simpleSourceBean;
+  private final OrganizationMapper mapper;
 
   public Organization findById(String organizationId) {
     return repository.findById(organizationId)
-        .map(Organization::from)
+        .map(mapper::from)
         .orElse(null);
   }
 
   public Organization create(Organization organization){
     organization.setId( UUID.randomUUID().toString());
-    repository.save(OrganizationEntity.from(organization));
+    repository.save(mapper.from(organization));
     simpleSourceBean.publishOrganizationChange("SAVE", organization.getId());
     return organization;
   }
 
   public void update(Organization organization){
-    repository.save(OrganizationEntity.from(organization));
+    repository.save(mapper.from(organization));
   }
 
   public void delete(Organization organization){

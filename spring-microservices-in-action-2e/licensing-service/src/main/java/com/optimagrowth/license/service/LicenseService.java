@@ -1,12 +1,13 @@
 package com.optimagrowth.license.service;
 
-import com.optimagrowth.license.model.License;
-import com.optimagrowth.license.model.LicenseEntity;
-import com.optimagrowth.license.model.Organization;
 import com.optimagrowth.license.client.OrganizationDiscoveryClient;
 import com.optimagrowth.license.client.OrganizationFeignClient;
 import com.optimagrowth.license.client.OrganizationRestTemplateClient;
 import com.optimagrowth.license.config.CommentConfigProps;
+import com.optimagrowth.license.model.License;
+import com.optimagrowth.license.model.LicenseJpaEntity;
+import com.optimagrowth.license.model.LicenseMapper;
+import com.optimagrowth.license.model.Organization;
 import com.optimagrowth.license.repository.LicenseRepository;
 import com.optimagrowth.license.utils.UserContextHolder;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
@@ -36,6 +37,7 @@ public class LicenseService {
   private final OrganizationFeignClient organizationFeignClient;
   private final OrganizationRestTemplateClient organizationRestClient;
   private final OrganizationDiscoveryClient organizationDiscoveryClient;
+  private final LicenseMapper mapper;
 
   @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
   @Bulkhead(name = "bulkheadLicenseService", type= Type.THREADPOOL, fallbackMethod = "buildFallbackLicenseList")
@@ -45,7 +47,7 @@ public class LicenseService {
     log.debug("LicenseService#getLicensesByOrganization > Thread Name: {}, Correlation Id: {}", Thread.currentThread().getName(), UserContextHolder.getContext().getCorrelationId());
     randomlyRunLong();
     return licenseRepository.findByOrganizationId(organizationId)
-        .stream().map(License::from)
+        .stream().map(mapper::from)
         .collect(Collectors.toList());
   }
 
@@ -72,7 +74,7 @@ public class LicenseService {
 
   public License getLicense(String licenseId, String organizationId, String clientType){
     License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId)
-        .map(License::from)
+        .map(mapper::from)
         .orElseThrow(() -> new IllegalArgumentException(String.format(
             messages.getMessage("license.search.error.message",
                 new String[]{licenseId, organizationId}, Locale.getDefault()), licenseId,
@@ -111,7 +113,7 @@ public class LicenseService {
   public License getLicense(String licenseId, String organizationId) {
     License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId,
             licenseId)
-        .map(License::from)
+        .map(mapper::from)
         .orElseThrow(() -> new IllegalArgumentException(
             String.format(
                 messages.getMessage("license.search.error.message",
@@ -123,12 +125,12 @@ public class LicenseService {
 
   public License createLicense(License license) {
     license.setLicenseId(UUID.randomUUID().toString());
-    licenseRepository.save(LicenseEntity.from(license));
+    licenseRepository.save(LicenseJpaEntity.from(license));
     return license.withComment(commentConfigProps.getComment());
   }
 
   public License updateLicense(License license) {
-    licenseRepository.save(LicenseEntity.from(license));
+    licenseRepository.save(LicenseJpaEntity.from(license));
     return license.withComment(commentConfigProps.getComment());
   }
 

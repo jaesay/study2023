@@ -14,14 +14,4 @@ public class OrganizationRedisEntity {
   private String contactName;
   private String contactEmail;
   private String contactPhone;
-
-  public static OrganizationRedisEntity from(Organization organization) {
-    OrganizationRedisEntity entity = new OrganizationRedisEntity();
-    entity.id = organization.getId();
-    entity.name = organization.getName();
-    entity.contactName = organization.getContactName();
-    entity.contactEmail = organization.getContactEmail();
-    entity.contactPhone = organization.getContactPhone();
-    return entity;
-  }
 }

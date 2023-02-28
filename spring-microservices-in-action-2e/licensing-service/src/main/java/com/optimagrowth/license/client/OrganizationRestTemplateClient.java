@@ -1,9 +1,10 @@
 package com.optimagrowth.license.client;
 
 import com.optimagrowth.license.model.Organization;
+import com.optimagrowth.license.model.OrganizationMapper;
 import com.optimagrowth.license.model.OrganizationRedisEntity;
 import com.optimagrowth.license.repository.OrganizationRedisRepository;
-import com.optimagrowth.license.utils.UserContext;
+import com.optimagrowth.license.utils.UserContextHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
@@ -18,15 +19,15 @@ public class OrganizationRestTemplateClient {
 
   private final RestTemplate restTemplate;
   private final OrganizationRedisRepository redisRepository;
-  private final UserContext userContext;
+  private final OrganizationMapper mapper;
 
   public Organization getOrganization(String organizationId){
-    log.debug("In Licensing Service.getOrganization: {}", userContext.getCorrelationId());
+    log.debug("In Licensing Service.getOrganization: {}", UserContextHolder.getContext().getCorrelationId());
 
     OrganizationRedisEntity entity = checkRedisCache(organizationId);
 
     if (entity != null) {
-      Organization organization = Organization.from(entity);
+      Organization organization = mapper.from(entity);
       log.debug("I have successfully retrieved an organization {} from the redis cache: {}", organizationId, organization);
       return organization;
     }
@@ -42,7 +43,7 @@ public class OrganizationRestTemplateClient {
     /*Save the record from cache*/
     Organization organization = restExchange.getBody();
     if (organization != null) {
-      cacheOrganizationObject(OrganizationRedisEntity.from(organization));
+      cacheOrganizationObject(mapper.from(organization));
     }
 
     return restExchange.getBody();

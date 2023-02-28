@@ -8,14 +8,15 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
 @Entity
 @Table(name = "organizations")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter @ToString
-public class OrganizationEntity {
+@Getter @Setter @ToString
+public class OrganizationJpaEntity {
 
   @Id
   @Column(name = "organization_id", nullable = false)
@@ -33,16 +34,6 @@ public class OrganizationEntity {
   @Column(name = "contact_phone", nullable = false)
   private String contactPhone;
 
-  public static OrganizationEntity from(Organization organization) {
-    OrganizationEntity entity = new OrganizationEntity();
-    entity.id = organization.getId();
-    entity.name = organization.getName();
-    entity.contactName = organization.getContactName();
-    entity.contactEmail = organization.getContactEmail();
-    entity.contactPhone = organization.getContactPhone();
-    return entity;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -51,7 +42,7 @@ public class OrganizationEntity {
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
       return false;
     }
-    OrganizationEntity that = (OrganizationEntity) o;
+    OrganizationJpaEntity that = (OrganizationJpaEntity) o;
     return id != null && Objects.equals(id, that.id);
   }
 
