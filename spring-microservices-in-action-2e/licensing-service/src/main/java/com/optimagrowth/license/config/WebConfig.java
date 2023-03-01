@@ -28,9 +28,8 @@ public class WebConfig {
     return messageSource;
   }
 
-  @LoadBalanced
   @Bean
-  public RestTemplate getRestTemplate(){
+  public RestTemplate restTemplate(){
     var restTemplate = new RestTemplate();
     var interceptors = restTemplate.getInterceptors();
     interceptors.add(new UserContextInterceptor());
