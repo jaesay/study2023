@@ -1,5 +1,7 @@
 package com.optimagrowth.license.client;
 
+import brave.ScopedSpan;
+import brave.Tracer;
 import com.optimagrowth.license.model.Organization;
 import com.optimagrowth.license.model.OrganizationMapper;
 import com.optimagrowth.license.model.OrganizationRedisEntity;
@@ -20,6 +22,7 @@ public class OrganizationRestTemplateClient {
   private final RestTemplate restTemplate;
   private final OrganizationRedisRepository redisRepository;
   private final OrganizationMapper mapper;
+  private final Tracer tracer;
 
   public Organization getOrganization(String organizationId){
     log.debug("In Licensing Service.getOrganization: {}", UserContextHolder.getContext().getCorrelationId());
@@ -50,11 +53,16 @@ public class OrganizationRestTemplateClient {
   }
 
   private OrganizationRedisEntity checkRedisCache(String organizationId) {
+    ScopedSpan newSpan = tracer.startScopedSpan("readLicensingDataFromRedis");
     try {
       return redisRepository.findById(organizationId).orElse(null);
-    } catch (Exception ex) {
+    } catch (Exception ex){
       log.error("Error encountered while trying to retrieve organization {} check Redis Cache.  Exception {}", organizationId, ex);
       return null;
+    } finally {
+      newSpan.tag("peer.service", "redis");
+      newSpan.annotate("Client received");
+      newSpan.finish();
     }
   }
 

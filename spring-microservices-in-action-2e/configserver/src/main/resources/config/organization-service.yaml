@@ -39,3 +39,6 @@ spring.cloud.stream:
     # 이 프로퍼티들은 카프카와 주키퍼의 네트워크 위치를 제공한다.
     zkNodes: kafka
     brokers: kafka
+
+spring.zipkin.baseUrl: http://zipkin:9411
+spring.sleuth.sampler.percentage: 1
