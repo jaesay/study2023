@@ -144,7 +144,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ~/esdata1:/usr/share/elasticsearch/data
+      - esdata1:/usr/share/elasticsearch/data
     ports:
       - 9300:9300
       - 9200:9200
@@ -211,6 +211,9 @@ services:
   #       aliases:
   #         - "keycloak"
 
+volumes:
+  esdata1:
+    driver: local
 networks:
   backend:
     driver: bridge
