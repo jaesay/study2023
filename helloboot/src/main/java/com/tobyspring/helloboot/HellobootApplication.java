@@ -40,7 +40,7 @@ public class HellobootApplication {
             String result = helloController.hello(name);
 
             resp.setContentType(MediaType.TEXT_PLAIN_VALUE);
-            resp.getWriter().println("Hello " + result);
+            resp.getWriter().println(result);
 
           } else {
             resp.setStatus(HttpStatus.NOT_FOUND.value());
