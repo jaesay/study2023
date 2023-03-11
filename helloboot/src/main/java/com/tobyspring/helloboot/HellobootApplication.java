@@ -20,6 +20,7 @@ public class HellobootApplication {
     GenericApplicationContext applicationContext = new GenericApplicationContext();
     /* 구성정보 */
     applicationContext.registerBean(HelloController.class);
+    applicationContext.registerBean(SimpleHelloService.class);
     /* 빈 초기화 */
     applicationContext.refresh();
 
