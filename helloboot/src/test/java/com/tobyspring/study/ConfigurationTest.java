@@ -11,16 +11,18 @@ import org.springframework.context.annotation.Configuration;
 class ConfigurationTest {
 
   @Test
-  @DisplayName("@Configuration이 붙은 클래스는 기본적으로 프록시(proxyBeanMethods=true)를 만들어서 "
+  @DisplayName("Configuration 클래스는 기본적으로 프록시(proxyBeanMethods=true)를 만들어서 "
       + "팩토리 메소드를 사용하여 오브젝트를 생성하면 한 개의 오브젝트만 사용하도록 한다.")
   void configuration() {
     AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
     applicationContext.register(MyConfig.class);
     applicationContext.refresh();
 
+    MyConfig myConfig = applicationContext.getBean(MyConfig.class);
     Bean1 bean1 = applicationContext.getBean(Bean1.class);
     Bean2 bean2 = applicationContext.getBean(Bean2.class);
 
+    System.out.println(myConfig.getClass());
     Assertions.assertThat(bean1.common).isSameAs(bean2.common);
   }
 
