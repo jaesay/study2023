@@ -1,5 +1,6 @@
 package com.tobyspring.config.autoconfig;
 
+import com.tobyspring.config.EnableMyConfigurationProperties;
 import com.tobyspring.config.MyAutoConfiguration;
 import com.tobyspring.config.MyConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 @MyAutoConfiguration
 @MyConditionalOnClass("org.apache.catalina.startup.Tomcat")
+@EnableMyConfigurationProperties(ServerProperties.class)
 public class TomcatWebServerConfig {
 
   @Bean("TomcatWebServerFactory")
