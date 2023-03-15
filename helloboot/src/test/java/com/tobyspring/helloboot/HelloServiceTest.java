@@ -7,7 +7,7 @@ class HelloServiceTest {
 
   @Test
   void simpleHelloService() {
-    SimpleHelloService helloService = new SimpleHelloService();
+    SimpleHelloService helloService = new SimpleHelloService(helloRepositoryStub);
 
     String result = helloService.sayHello("Test");
 
@@ -22,4 +22,16 @@ class HelloServiceTest {
 
     Assertions.assertThat(result).isEqualTo("*Test*");
   }
+
+  private final HelloRepository helloRepositoryStub = new HelloRepository() {
+    @Override
+    public Hello findHello(String name) {
+      return null;
+    }
+
+    @Override
+    public void increaseCount(String name) {
+
+    }
+  };
 }

@@ -1,2 +1,5 @@
 ### hello
-GET http://localhost:8080/hello?name=Spring
+GET http://localhost:9090/app/hello?name=Spring
+
+### count
+GET http://localhost:9090/app/count?name=Spring
