@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Conditional;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Conditional(MyOnClassCondition.class)
 public @interface MyConditionalOnClass {
   String value();
