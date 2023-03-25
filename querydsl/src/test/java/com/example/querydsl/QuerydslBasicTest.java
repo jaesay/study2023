@@ -1,12 +1,12 @@
 package com.example.querydsl;
 
 import static com.example.querydsl.entity.QMember.member;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.querydsl.entity.Member;
 import com.example.querydsl.entity.Team;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import javax.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ class QuerydslBasicTest {
         .setParameter("username", "member1")
         .getSingleResult();
 
-    Assertions.assertThat(findMember.getUsername()).isEqualTo("member1");
+    assertThat(findMember.getUsername()).isEqualTo("member1");
   }
 
   @Test
@@ -58,6 +58,30 @@ class QuerydslBasicTest {
         .where(member.username.eq("member1"))
         .fetchOne();
 
-    Assertions.assertThat(findMember.getUsername()).isEqualTo("member1");
+    assertThat(findMember.getUsername()).isEqualTo("member1");
+  }
+
+  @Test
+  public void search() {
+    Member findMember = queryFactory
+        .selectFrom(member)
+        .where(member.username.eq("member1")
+            .and(member.age.eq(10)))
+        .fetchOne();
+
+    assertThat(findMember.getUsername()).isEqualTo("member1");
+  }
+
+  @Test
+  public void searchAndParam() {
+    Member findMember = queryFactory
+        .selectFrom(member)
+        .where(member.username.eq("member1"),
+            member.age.eq(10))
+        .fetchOne();
+
+    assertThat(findMember.getUsername()).isEqualTo("member1");
   }
 }
+
+
