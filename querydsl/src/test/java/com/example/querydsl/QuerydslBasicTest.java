@@ -12,6 +12,7 @@ import com.example.querydsl.entity.Team;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -418,7 +419,25 @@ class QuerydslBasicTest {
       Integer rank = tuple.get(rankPath);
       System.out.println("username = " + username + " age = " + age + " rank = " + rank);
     }
+  }
 
+  @Test
+  @DisplayName("상수, 문자 더하기")
+  void constant() {
+    Tuple result = queryFactory
+        .select(member.username, Expressions.constant("A"))
+        .from(member)
+        .fetchFirst();
+
+    /*
+     * member.age.stringValue() 부분이 중요한데, 문자가 아닌 다른 타입들은 stringValue() 로 문자로 변환할 수 있다.
+     * 이 방법은 ENUM을 처리할 때도 자주 사용한다.
+     * */
+    String result2 = queryFactory
+        .select(member.username.concat("_").concat(member.age.stringValue()))
+        .from(member)
+        .where(member.username.eq("member1"))
+        .fetchOne();
   }
 }
 
