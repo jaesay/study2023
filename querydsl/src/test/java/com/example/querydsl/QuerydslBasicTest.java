@@ -5,6 +5,8 @@ import static com.example.querydsl.entity.QTeam.team;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.querydsl.entity.Member;
+import com.example.querydsl.entity.QMember;
+import com.example.querydsl.entity.QTeam;
 import com.example.querydsl.entity.Team;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
@@ -25,9 +27,9 @@ class QuerydslBasicTest {
   @Autowired
   EntityManager em;
   /**
-   * JPAQueryFactory를 필드로 제공하면 동시성 문제는 어떻게 될까?
-   * 동시성 문제는 JPAQueryFactory를 생성할 때 제공하는 EntityManager(em)에 달려있다.
-   * 스프링 프레임워크는 여러 쓰레드에서 동시에 같은 EntityManager에 접근해도, 트랜잭션 마다 별도의 영속성 컨텍스트를 제공하기 때문에, 동시성 문제는 걱정하지 않아도 된다.
+   * JPAQueryFactory를 필드로 제공하면 동시성 문제는 어떻게 될까? 동시성 문제는 JPAQueryFactory를 생성할 때 제공하는
+   * EntityManager(em)에 달려있다. 스프링 프레임워크는 여러 쓰레드에서 동시에 같은 EntityManager에 접근해도, 트랜잭션 마다 별도의 영속성 컨텍스트를
+   * 제공하기 때문에, 동시성 문제는 걱정하지 않아도 된다.
    */
   JPAQueryFactory queryFactory;
 
@@ -49,9 +51,8 @@ class QuerydslBasicTest {
   }
 
   /**
-   * Querydsl은 JPQL 빌더
-   * JPQL: 문자(실행 시점 오류), Querydsl: 코드(컴파일 시점 오류)
-   * JPQL: 파라미터 바인딩 직접, Querydsl: 파라미터 바인딩 자동 처리
+   * Querydsl은 JPQL 빌더 JPQL: 문자(실행 시점 오류), Querydsl: 코드(컴파일 시점 오류) JPQL: 파라미터 바인딩 직접, Querydsl: 파라미터
+   * 바인딩 자동 처리
    */
   @Test
   @DisplayName("JPQL vs Querydsl")
@@ -134,10 +135,7 @@ class QuerydslBasicTest {
   }
 
   /**
-   * 회원 정렬 순서
-   * 1. 회원 나이 내림차순(desc)
-   * 2. 회원 이름 올림차순(asc)
-   * 단 2에서 회원 이름이 없으면 마지막에 출력(nulls last)
+   * 회원 정렬 순서 1. 회원 나이 내림차순(desc) 2. 회원 이름 올림차순(asc) 단 2에서 회원 이름이 없으면 마지막에 출력(nulls last)
    */
   @Test
   @DisplayName("정렬")
@@ -191,7 +189,7 @@ class QuerydslBasicTest {
 
   @Test
   @DisplayName("집합")
-  public void aggregation() {
+  void aggregation() {
     List<Tuple> result = queryFactory
         .select(member.count(),
             member.age.sum(),
@@ -224,7 +222,40 @@ class QuerydslBasicTest {
     assertThat(teamB.get(member.age.avg())).isEqualTo(35);
   }
 
+  @Test
+  @DisplayName("조인 - 기본 조인")
+  void join() {
+    /* join() , innerJoin() : 내부 조인(inner join)
+    leftJoin() : left 외부 조인(left outer join)
+    rightJoin() : rigth 외부 조인(rigth outer join) */
+    QMember member = QMember.member;
+    QTeam team = QTeam.team;
+
+    List<Member> result = queryFactory
+        .selectFrom(member)
+        .join(member.team, team)
+        .where(team.name.eq("teamA"))
+        .fetch();
+
+    assertThat(result)
+        .extracting("username")
+        .containsExactly("member1", "member2");
+
+    /* 세타 조인(연관관계가 없는 필드로 조인)
+    회원의 이름이 팀 이름과 같은 회원 조회 */
+    em.persist(new Member("teamA"));
+    em.persist(new Member("teamB"));
+
+    List<Member> result2 = queryFactory
+        .select(member)
+        .from(member, team)
+        .where(member.username.eq(team.name))
+        .fetch();
+
+    assertThat(result2)
+        .extracting("username")
+        .containsExactly("teamA", "teamB");
+  }
 
 }
-
 
