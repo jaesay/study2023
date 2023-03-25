@@ -2,6 +2,7 @@ package com.example.querydsl;
 
 import static com.example.querydsl.entity.QMember.member;
 import static com.example.querydsl.entity.QTeam.team;
+import static com.querydsl.jpa.JPAExpressions.select;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.querydsl.entity.Member;
@@ -327,6 +328,55 @@ class QuerydslBasicTest {
   }
 
 
+  /**
+   * from 절의 서브쿼리 한계
+   * JPA JPQL 서브쿼리의 한계점으로 from 절의 서브쿼리(인라인 뷰)는 지원하지 않는다. 당연히 Querydsl 도 지원하지 않는다.
+   * 하이버네이트 구현체를 사용하면 select 절의 서브쿼리는 지원한다. Querydsl도 하이버네이트 구현체를 사용하면 select 절의 서브쿼리를 지원한다.
+   * 하이버네이트 5.1 이상에서 지원하지만 주의해서 사용하여야 한다.
+   *
+   * from 절의 서브쿼리 해결방안
+   * 1. 서브쿼리를 join으로 변경한다. (가능한 상황도 있고, 불가능한 상황도 있다.)
+   * 2. 애플리케이션에서 쿼리를 2번 분리해서 실행한다.
+   * 3. nativeSQL을 사용한다.
+   */
+  @Test
+  @DisplayName("서브 쿼리")
+  void subQuery() {
+    /* where 절 서브쿼리 */
+    QMember memberSub = new QMember("memberSub");
+
+    List<Member> result = queryFactory
+        .selectFrom(member)
+        .where(member.age.eq(
+            select(memberSub.age.max()).from(memberSub)
+        ))
+        .fetch();
+
+    assertThat(result).extracting("age")
+        .containsExactly(40);
+
+    List<Member> result2 = queryFactory
+        .selectFrom(member)
+        .where(member.age.in(
+            select(memberSub.age).from(memberSub)
+                .where(memberSub.age.gt(10))))
+        .fetch();
+
+    assertThat(result2).extracting("age")
+        .containsExactly(20, 30, 40);
+
+    /* select 절에 subquery */
+    List<Tuple> fetch = queryFactory
+        .select(member.username,
+            select(memberSub.age.avg()).from(memberSub))
+        .from(member)
+        .fetch();
+
+    for (Tuple tuple : fetch) {
+      System.out.println("username = " + tuple.get(member.username));
+      System.out.println("age = " + tuple.get(select(memberSub.age.avg()).from(memberSub)));
+    }
+  }
 
 }
 
