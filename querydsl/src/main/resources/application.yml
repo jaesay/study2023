@@ -12,6 +12,7 @@ spring:
       hibernate:
 #        show_sql: true System.out 에 하이버네이트 실행 SQL을 남긴다.
         format_sql: true
+        use_sql_comments: true # querydsl로 만들어지는 jpql을 보여줌
 
 logging.level:
   org.hibernate.SQL: debug # logger를 통해 하이버네이트 실행 SQL을 남긴다.
