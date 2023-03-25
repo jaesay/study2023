@@ -13,6 +13,8 @@ import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -295,6 +297,35 @@ class QuerydslBasicTest {
     }
 
   }
+
+  @PersistenceUnit
+  EntityManagerFactory emf;
+
+  @Test
+  @DisplayName("조인 - 페치 조인")
+  void fetchJoinNo() {
+    em.flush();
+    em.clear();
+
+    Member findMember = queryFactory
+        .selectFrom(member)
+        .where(member.username.eq("member1")).fetchOne();
+
+    boolean loaded =
+        emf.getPersistenceUnitUtil().isLoaded(findMember.getTeam());
+    assertThat(loaded).as("페치 조인 미적용").isFalse();
+
+    em.flush();
+    em.clear();
+
+    Member findMember2 = queryFactory
+        .selectFrom(member)
+        .join(member.team, team).fetchJoin().where(member.username.eq("member1")).fetchOne();
+
+    boolean loaded2 = emf.getPersistenceUnitUtil().isLoaded(findMember2.getTeam());
+    assertThat(loaded2).as("페치 조인 적용").isTrue();
+  }
+
 
 
 }
