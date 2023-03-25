@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.querydsl.entity.Member;
 import com.example.querydsl.entity.Team;
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,9 +41,9 @@ class QuerydslBasicTest {
   }
 
   @Test
-  public void startJPQL() {
+  void startJPQL() {
     String qlString = "select m from Member m " +
-            "where m.username = :username";
+        "where m.username = :username";
 
     Member findMember = em.createQuery(qlString, Member.class)
         .setParameter("username", "member1")
@@ -51,7 +53,7 @@ class QuerydslBasicTest {
   }
 
   @Test
-  public void startQuerydsl() {
+  void startQuerydsl() {
     Member findMember = queryFactory
         .select(member)
         .from(member)
@@ -62,7 +64,7 @@ class QuerydslBasicTest {
   }
 
   @Test
-  public void search() {
+  void search() {
     Member findMember = queryFactory
         .selectFrom(member)
         .where(member.username.eq("member1")
@@ -73,7 +75,7 @@ class QuerydslBasicTest {
   }
 
   @Test
-  public void searchAndParam() {
+  void searchAndParam() {
     Member findMember = queryFactory
         .selectFrom(member)
         .where(member.username.eq("member1"),
@@ -81,6 +83,31 @@ class QuerydslBasicTest {
         .fetchOne();
 
     assertThat(findMember.getUsername()).isEqualTo("member1");
+  }
+
+  @Test
+  void resultFetch() {
+    List<Member> fetch = queryFactory
+        .selectFrom(member)
+        .fetch();
+
+    Member findMember1 = queryFactory
+        .selectFrom(member)
+        .where(member.id.eq(1L))
+        .fetchOne();
+
+    Member findMember2 = queryFactory
+        .selectFrom(member)
+        .fetchFirst();
+
+    QueryResults<Member> results = queryFactory
+        .selectFrom(member)
+        .fetchResults();
+
+    long count = queryFactory
+        .selectFrom(member)
+        .fetchCount();
+
   }
 }
 
