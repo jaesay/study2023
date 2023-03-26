@@ -269,9 +269,9 @@ class QuerydslBasicTest {
     /* 1. 조인 대상 필터링 */
     /* 예) 회원과 팀을 조인하면서, 팀 이름이 teamA인 팀만 조인, 회원은 모두 조회 */
     /*
-    * 참고: on 절을 활용해 조인 대상을 필터링 할 때, 외부조인이 아니라 내부조인(inner join)을 사용하면, where 절에서 필터링 하는 것과 기능이 동일하다.
-    * 따라서 on 절을 활용한 조인 대상 필터링을 사용할 때, 내부조인 이면 익숙한 where 절로 해결하고, 정말 외부조인이 필요한 경우에만 이 기능을 사용하자.
-    * */
+     * 참고: on 절을 활용해 조인 대상을 필터링 할 때, 외부조인이 아니라 내부조인(inner join)을 사용하면, where 절에서 필터링 하는 것과 기능이 동일하다.
+     * 따라서 on 절을 활용한 조인 대상 필터링을 사용할 때, 내부조인 이면 익숙한 where 절로 해결하고, 정말 외부조인이 필요한 경우에만 이 기능을 사용하자.
+     * */
     List<Tuple> result = queryFactory
         .select(member, team)
         .from(member)
@@ -283,11 +283,11 @@ class QuerydslBasicTest {
     }
 
     /*
-    * 하이버네이트 5.1부터 on 을 사용해서 서로 관계가 없는 필드로 외부 조인하는 기능이 추가되었다. 물론 내부 조인도 가능하다.
-    * 주의! 문법을 잘 봐야 한다. leftJoin() 부분에 일반 조인과 다르게 엔티티 하나만 들어간다.
-    * 일반조인: leftJoin(member.team, team)
-    * on조인: from(member).leftJoin(team).on(xxx)
-    * */
+     * 하이버네이트 5.1부터 on 을 사용해서 서로 관계가 없는 필드로 외부 조인하는 기능이 추가되었다. 물론 내부 조인도 가능하다.
+     * 주의! 문법을 잘 봐야 한다. leftJoin() 부분에 일반 조인과 다르게 엔티티 하나만 들어간다.
+     * 일반조인: leftJoin(member.team, team)
+     * on조인: from(member).leftJoin(team).on(xxx)
+     * */
     em.persist(new Member("teamA"));
     em.persist(new Member("teamB"));
     List<Tuple> result2 = queryFactory
@@ -332,15 +332,12 @@ class QuerydslBasicTest {
 
 
   /**
-   * from 절의 서브쿼리 한계
-   * JPA JPQL 서브쿼리의 한계점으로 from 절의 서브쿼리(인라인 뷰)는 지원하지 않는다. 당연히 Querydsl 도 지원하지 않는다.
-   * 하이버네이트 구현체를 사용하면 select 절의 서브쿼리는 지원한다. Querydsl도 하이버네이트 구현체를 사용하면 select 절의 서브쿼리를 지원한다.
-   * 하이버네이트 5.1 이상에서 지원하지만 주의해서 사용하여야 한다.
-   *
-   * from 절의 서브쿼리 해결방안
-   * 1. 서브쿼리를 join으로 변경한다. (가능한 상황도 있고, 불가능한 상황도 있다.)
-   * 2. 애플리케이션에서 쿼리를 2번 분리해서 실행한다.
-   * 3. nativeSQL을 사용한다.
+   * from 절의 서브쿼리 한계 JPA JPQL 서브쿼리의 한계점으로 from 절의 서브쿼리(인라인 뷰)는 지원하지 않는다. 당연히 Querydsl 도 지원하지 않는다.
+   * 하이버네이트 구현체를 사용하면 select 절의 서브쿼리는 지원한다. Querydsl도 하이버네이트 구현체를 사용하면 select 절의 서브쿼리를 지원한다. 하이버네이트
+   * 5.1 이상에서 지원하지만 주의해서 사용하여야 한다.
+   * <p>
+   * from 절의 서브쿼리 해결방안 1. 서브쿼리를 join으로 변경한다. (가능한 상황도 있고, 불가능한 상황도 있다.) 2. 애플리케이션에서 쿼리를 2번 분리해서
+   * 실행한다. 3. nativeSQL을 사용한다.
    */
   @Test
   @DisplayName("서브 쿼리")
@@ -438,6 +435,28 @@ class QuerydslBasicTest {
         .from(member)
         .where(member.username.eq("member1"))
         .fetchOne();
+  }
+
+  @Test
+  @DisplayName("프로젝션과 결과 반환 - 기본")
+  void simpleProjection() {
+    /* select 대상 지정 - 대상이 하나 */
+    List<String> result = queryFactory
+        .select(member.username)
+        .from(member)
+        .fetch();
+
+    /* 튜플 조회 - 프로젝션 대상이 둘 이상일 때 사용 */
+    List<Tuple> result2 = queryFactory
+        .select(member.username, member.age).from(member)
+        .fetch();
+
+    for (Tuple tuple : result2) {
+      String username = tuple.get(member.username);
+      Integer age = tuple.get(member.age);
+      System.out.println("username=" + username);
+      System.out.println("age=" + age);
+    }
   }
 }
 
