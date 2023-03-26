@@ -12,6 +12,7 @@ import com.example.querydsl.entity.Member;
 import com.example.querydsl.entity.QMember;
 import com.example.querydsl.entity.QTeam;
 import com.example.querydsl.entity.Team;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.ExpressionUtils;
@@ -25,6 +26,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -537,5 +539,33 @@ class QuerydslBasicTest {
         .from(member)
         .fetch();
   }
+
+  @Test
+  @DisplayName("동적 쿼리 - BooleanBuilder 사용")
+  void dynamicQuery_BooleanBuilder() {
+    /* 동적 쿼리를 해결하는 두가지 방식 - BooleanBuilder */
+    String usernameParam = "member1";
+    Integer ageParam = 10;
+
+    List<Member> result = searchMember1(usernameParam, ageParam);
+
+    Assertions.assertThat(result.size()).isEqualTo(1);
+  }
+
+  private List<Member> searchMember1(String usernameCond, Integer ageCond) {
+    BooleanBuilder builder = new BooleanBuilder();
+    if (usernameCond != null) {
+      builder.and(member.username.eq(usernameCond));
+    }
+    if (ageCond != null) {
+      builder.and(member.age.eq(ageCond));
+    }
+
+    return queryFactory
+        .selectFrom(member)
+        .where(builder)
+        .fetch();
+  }
+
 }
 
