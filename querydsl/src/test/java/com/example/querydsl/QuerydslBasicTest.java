@@ -6,6 +6,7 @@ import static com.querydsl.jpa.JPAExpressions.select;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.querydsl.dto.MemberDto;
+import com.example.querydsl.dto.QMemberDto;
 import com.example.querydsl.dto.UserDto;
 import com.example.querydsl.entity.Member;
 import com.example.querydsl.entity.QMember;
@@ -514,5 +515,27 @@ class QuerydslBasicTest {
         .fetch();
   }
 
+  @Test
+  @DisplayName("프로젝션과 결과 반환 - @QueryProjection")
+  void queryProjection() {
+    /*
+    * @QueryProjection 활용
+    * 이 방법은 컴파일러로 타입을 체크할 수 있으므로 가장 안전한 방법이다.
+    * 다만 DTO에 QueryDSL  어노테이션을 유지해야 하는 점과 DTO까지 Q 파일을 생성해야 하는 단점이 있다.
+    * */
+    List<MemberDto> result = queryFactory
+        .select(new QMemberDto(member.username, member.age))
+        .from(member)
+        .fetch();
+
+    /*
+    * distinct
+    * 참고: distinct는 JPQL의 distinct와 같다.
+    * */
+    List<String> result2 = queryFactory
+        .select(member.username).distinct()
+        .from(member)
+        .fetch();
+  }
 }
 
