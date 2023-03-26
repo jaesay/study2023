@@ -5,15 +5,20 @@ import static com.example.querydsl.entity.QTeam.team;
 import static com.querydsl.jpa.JPAExpressions.select;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.querydsl.dto.MemberDto;
+import com.example.querydsl.dto.UserDto;
 import com.example.querydsl.entity.Member;
 import com.example.querydsl.entity.QMember;
 import com.example.querydsl.entity.QTeam;
 import com.example.querydsl.entity.Team;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -458,5 +463,56 @@ class QuerydslBasicTest {
       System.out.println("age=" + age);
     }
   }
+
+  @Test
+  @DisplayName("프로젝션과 결과 반환 - DTO 조회")
+  void dtoProjection() {
+    /*
+     * 순수 JPA에서 DTO 조회
+     * 순수 JPA에서 DTO를 조회할 때는 new 명령어를 사용해야함
+     * DTO의 package이름을 다 적어줘야해서 지저분함
+     * 생성자 방식만 지원함
+     * */
+    List<MemberDto> result = em.createQuery(
+            "select new com.example.querydsl.dto.MemberDto(m.username, m.age) from Member m",
+            MemberDto.class)
+        .getResultList();
+
+    /* Querydsl 결과를 DTO 반환할 때 다음 3가지 방법 지원 */
+    List<MemberDto> result2 = queryFactory
+        .select(Projections.bean(MemberDto.class, member.username,
+            member.age))
+        .from(member)
+        .fetch();
+
+    /* 프로퍼티 접근 - Setter */
+    List<MemberDto> result3 = queryFactory
+        .select(Projections.fields(MemberDto.class, member.username,
+            member.age))
+        .from(member)
+        .fetch();
+
+    /*
+     * 별칭이 다를 때
+     * 프로퍼티나, 필드 접근 생성 방식에서 이름이 다를 때 해결 방안
+     * ExpressionUtils.as(source,alias) : 필드나, 서브 쿼리에 별칭 적용
+     * username.as("memberName") : 필드에 별칭 적용
+     */
+    QMember memberSub = new QMember("memberSub");
+    List<UserDto> fetch = queryFactory
+        .select(Projections.fields(UserDto.class, member.username.as("name"),
+            ExpressionUtils.as(
+                JPAExpressions.select(memberSub.age.max()).from(memberSub), "age"))
+        ).from(member)
+        .fetch();
+
+    /* 필드 직접 접근 */
+    List<MemberDto> result4 = queryFactory
+        .select(Projections.constructor(MemberDto.class, member.username,
+            member.age))
+        .from(member)
+        .fetch();
+  }
+
 }
 
