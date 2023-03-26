@@ -570,7 +570,7 @@ class QuerydslBasicTest {
 
   @Test
   @DisplayName("동적 쿼리 - Where 다중 파라미터 사용 ")
-  public void dynamicQuery_WhereParam() {
+  void dynamicQuery_WhereParam() {
     /*
     * 동적 쿼리를 해결하는 두가지 방식 - Where 다중 파라미터 사용
     * where 조건에 null 값은 무시된다.
@@ -608,5 +608,40 @@ class QuerydslBasicTest {
     return usernameEq(usernameCond).and(ageEq(ageCond));
   }
 
+  @Test
+  @DisplayName("수정, 삭제 벌크 연산")
+  void bulk() {
+    /*
+    * 주의: JPQL 배치와 마찬가지로, 영속성 컨텍스트에 있는 엔티티를 무시하고 실행되기 때문에
+    * 배치 쿼리를 실행하고 나면 영속성 컨텍스트를 초기화 하는 것이 안전하다.
+    * */
+    /* 쿼리 한번으로 대량 데이터 수정 */
+    long count = queryFactory
+        .update(member)
+        .set(member.username, "비회원")
+        .where(member.age.lt(28))
+        .execute();
+
+    em.flush();
+    em.clear();
+
+    /* 기존 숫자에 1 더하기 */
+    long count2 = queryFactory
+        .update(member)
+        .set(member.age, member.age.add(1))
+        .execute();
+
+    em.flush();
+    em.clear();
+
+    /* 쿼리 한번으로 대량 데이터 삭제 */
+    long count3 = queryFactory
+        .delete(member)
+        .where(member.age.gt(18))
+        .execute();
+
+    em.flush();
+    em.clear();
+  }
 }
 
