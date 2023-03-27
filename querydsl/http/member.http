@@ -1,2 +1,8 @@
 ###
 GET http://localhost:8080/v1/members?teamName=teamB&ageGoe=31&ageLoe=35
+
+###
+http://localhost:8080/v2/members?size=5&page=2
+
+###
+http://localhost:8080/v3/members?size=5&page=2
