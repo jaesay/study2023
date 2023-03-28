@@ -669,4 +669,20 @@ class QuerydslBasicTest {
 //        )
         .fetch();
   }
+
+  @Test
+  public void count() {
+    /*
+    * count(*) 을 사용하고 싶으면 예제의 주석처럼 Wildcard.count 를 사용하시면 됩니다.
+    * member.count() 를 사용하면 count(member.id) 로 처리됩니다.
+    * 응답 결과는 숫자 하나이므로 fetchOne() 을 사용합니다.
+    * */
+    Long totalCount = queryFactory
+        //.select(Wildcard.count) //select count(*)
+        .select(member.count()) //select count(member.id)
+        .from(member)
+        .fetchOne();
+
+    System.out.println("totalCount = " + totalCount);
+  }
 }

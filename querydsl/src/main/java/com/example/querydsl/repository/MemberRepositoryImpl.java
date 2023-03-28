@@ -7,7 +7,6 @@ import static org.springframework.util.StringUtils.hasText;
 import com.example.querydsl.dto.MemberSearchCondition;
 import com.example.querydsl.dto.MemberTeamDto;
 import com.example.querydsl.dto.QMemberTeamDto;
-import com.example.querydsl.entity.Member;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -59,6 +58,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
    * @return
    */
   @Override
+  @Deprecated
   public Page<MemberTeamDto> searchPageSimple(MemberSearchCondition condition, Pageable pageable) {
     QueryResults<MemberTeamDto> results = queryFactory
         .select(new QMemberTeamDto(
@@ -114,8 +114,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         .limit(pageable.getPageSize())
         .fetch();
 
-    JPAQuery<Member> countQuery = queryFactory
-        .select(member)
+    JPAQuery<Long> countQuery = queryFactory
+        .select(member.count())
         .from(member)
         .leftJoin(member.team, team)
         .where(usernameEq(condition.getUsername()),
@@ -131,7 +131,7 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     * - 페이지 시작이면서 컨텐츠 사이즈가 페이지 사이즈보다 작을 때
     * - 마지막 페이지 일 때 (offset + 컨텐츠 사이즈를 더해서 전체 사이즈 구함)
     * */
-    return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchCount);
+    return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
   }
 
   private BooleanExpression usernameEq(String username) {
