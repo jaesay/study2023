@@ -1,5 +1,6 @@
 package com.example.querydsl.repository;
 
+import static com.example.querydsl.entity.QMember.member;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.querydsl.dto.MemberSearchCondition;
@@ -100,5 +101,19 @@ class MemberRepositoryTest {
     assertThat(result.getContent())
         .extracting("username")
         .containsExactly("member1", "member2", "member3");
+  }
+
+  @Test
+  void QuerydslPredicateExecutorTest() {
+    /*
+    * 스프링 데이터에서 제공하는 기능
+    * 한계점
+    * 조인X (묵시적 조인은 가능하지만 left join이 불가능하다.)
+    * 클라이언트가 Querydsl에 의존해야 한다. 서비스 클래스가 Querydsl이라는 구현 기술에 의존해야 한다. 복잡한 실무환경에서 사용하기에는 한계가 명확하다.
+    * */
+    Iterable<Member> result = memberRepository.findAll(
+        member.age.between(10, 40).and(member.username.eq("member1")));
+
+    result.forEach(System.out::println);
   }
 }
