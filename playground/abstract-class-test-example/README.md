@@ -1,1 +1,0 @@
-https://www.baeldung.com/junit-test-abstract-class
