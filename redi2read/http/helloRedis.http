@@ -1,0 +1,14 @@
+###
+POST http://localhost:8080/api/redis/strings
+Content-Type: application/json
+
+{
+  "database:redis:creator": "Salvatore Sanfilippo"
+}
+
+###
+GET http://localhost:8080/api/redis/strings/database:redis:creator
+
+###
+
+
