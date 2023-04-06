@@ -1,5 +1,6 @@
 package com.redislabs.edu.redi2read.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.constraints.Email;
@@ -14,6 +15,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
+@JsonIgnoreProperties(value = { "password", "passwordConfirm" }, allowSetters = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true)
 @Data
