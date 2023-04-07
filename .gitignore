@@ -40,3 +40,4 @@ out/
 
 ### Redis
 appendonly.aof
+dump.rdb
