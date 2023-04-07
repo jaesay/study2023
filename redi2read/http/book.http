@@ -1,0 +1,15 @@
+### Get Books
+GET http://localhost:8080/api/books/?size=25&page=2
+
+### Get a book by ISBN
+GET http://localhost:8080/api/books/1680503545
+
+### Get all Categories
+GET http://localhost:8080/api/books/categories
+
+###
+
+
+
+
+
