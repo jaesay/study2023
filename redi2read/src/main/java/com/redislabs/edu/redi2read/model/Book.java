@@ -1,5 +1,7 @@
 package com.redislabs.edu.redi2read.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
@@ -10,6 +12,9 @@ import org.springframework.data.redis.core.RedisHash;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id")
 @RedisHash
 public class Book {
 

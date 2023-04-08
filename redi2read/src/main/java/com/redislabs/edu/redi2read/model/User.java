@@ -1,5 +1,6 @@
 package com.redislabs.edu.redi2read.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,9 +45,18 @@ public class User {
   private String passwordConfirm;
 
   @Reference
+  @JsonIdentityReference(alwaysAsId = true)
   private Set<Role> roles = new HashSet<>();
 
   public void addRole(Role role) {
     roles.add(role);
+  }
+
+  @Reference
+  @JsonIdentityReference(alwaysAsId = true)
+  private Set<Book> books = new HashSet<>();
+
+  public void addBook(Book book) {
+    books.add(book);
   }
 }

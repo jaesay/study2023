@@ -1,0 +1,5 @@
+### Get a cart by id
+GET http://localhost:8080/api/carts/52513fad-1c40-4a02-a62d-831466fbb56b
+
+###
+
