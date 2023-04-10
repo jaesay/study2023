@@ -1,0 +1,7 @@
+###
+GET http://localhost:8080/api/recommendations/user/5290234596626234672
+
+###
+GET http://localhost:8080/api/recommendations/isbn/1789610222/pairings
+
+###
