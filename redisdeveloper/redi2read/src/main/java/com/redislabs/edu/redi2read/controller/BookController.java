@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -77,14 +78,15 @@ public class BookController {
   }
 
   @GetMapping("/search")
-  public SearchResults<String,String> search(@RequestParam(name="q")String query) {
+  @Cacheable("book-search")
+  public SearchResults<String,String> search(@RequestParam(name="q") String query) {
     RediSearchCommands<String, String> commands = searchConnection.sync();
     SearchResults<String, String> results = commands.search(searchIndexName, query);
     return results;
   }
 
   @GetMapping("/authors")
-  public List<Suggestion<String>> authorAutoComplete(@RequestParam(name="q")String query) {
+  public List<Suggestion<String>> authorAutoComplete(@RequestParam(name="q") String query) {
     RediSearchCommands<String, String> commands = searchConnection.sync();
     SuggetOptions options = SuggetOptions.builder().max(20L).build();
     return commands.sugget(autoCompleteKey, query, options);

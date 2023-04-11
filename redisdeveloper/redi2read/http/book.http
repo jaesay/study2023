@@ -17,3 +17,8 @@ GET http://localhost:8080/api/books/authors/?q=brian%20s
 GET http://localhost:8080/api/books/authors/?q=brian%20sa
 
 ###
+GET http://localhost:8080/api/books/search?q=java
+
+###
+
+
