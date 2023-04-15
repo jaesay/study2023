@@ -40,14 +40,20 @@ class HashCommandController {
         .nestedHashEntities2(Set.of(nestedHashEntity2))
         .build();
 
+    // "DEL" "com.example.springdataredis.HashEntity:1"
     // "HMSET" "com.example.springdataredis.HashEntity:1" "_class" "com.example.springdataredis.HashEntity" "bigDecimal" "123.45" "bool" "1" "enumType" "TEST" "id" "1" "list.[0]" "list_element_1" "list.[1]" "list_element_2" "localDate" "2023-04-15" "map.[map_key_1]" "map_value_1" "map.[map_key_2]" "map_value_2" "nestedHashEntities.[0]" "com.example.springdataredis.NestedHashEntity:1" "nestedHashEntities2.[0]" "com.example.springdataredis.NestedHashEntity:2" "set.[0]" "set_element_2" "set.[1]" "set_element_1" "str" "sample_string"
     // "SADD" "com.example.springdataredis.HashEntity" "1"
+    // "SADD" "com.example.springdataredis.HashEntity:str:sample_string" "1"
+    // "SADD" "com.example.springdataredis.HashEntity:1:idx" "com.example.springdataredis.HashEntity:str:sample_string"
     hashEntityRepository.save(hashEntity1);
+    // "DEL" "com.example.springdataredis.NestedHashEntity:1"
     // "HMSET" "com.example.springdataredis.NestedHashEntity:1" "_class" "com.example.springdataredis.NestedHashEntity" "id" "1" "nestedNestedHashEntities.[0]" "com.example.springdataredis.NestedNestedHashEntity:1" "str" "sample_string"
     // "SADD" "com.example.springdataredis.NestedHashEntity" "1"
+    // "DEL" "com.example.springdataredis.NestedHashEntity:2"
     // "HMSET" "com.example.springdataredis.NestedHashEntity:2" "_class" "com.example.springdataredis.NestedHashEntity" "id" "2" "nestedNestedHashEntities.[0]" "com.example.springdataredis.NestedNestedHashEntity:1" "str" "sample_string2"
     // "SADD" "com.example.springdataredis.NestedHashEntity" "2"
     nestedHashEntityRepository.saveAll(List.of(nestedHashEntity1, nestedHashEntity2));
+    // "DEL" "com.example.springdataredis.NestedNestedHashEntity:1"
     // "HMSET" "com.example.springdataredis.NestedNestedHashEntity:1" "_class" "com.example.springdataredis.NestedNestedHashEntity" "id" "1" "str" "sample_string"
     // "SADD" "com.example.springdataredis.NestedNestedHashEntity" "1"
     nestedNestedHashEntityRepository.saveAll(List.of(nestedNestedHashEntity1));
@@ -60,5 +66,13 @@ class HashCommandController {
     HashEntity findHashEntity1 = hashEntityRepository.findById(1L).orElseThrow(RuntimeException::new);
 
     System.out.println(findHashEntity1);
+
+    // "SINTER" "com.example.springdataredis.HashEntity:str:sample_string"
+    // "HGETALL" "com.example.springdataredis.HashEntity:1"
+    // "HGETALL" "com.example.springdataredis.NestedHashEntity:1"
+    // "HGETALL" "com.example.springdataredis.NestedNestedHashEntity:1"
+    // "HGETALL" "com.example.springdataredis.NestedHashEntity:2"
+    // "HGETALL" "com.example.springdataredis.NestedNestedHashEntity:1"
+    hashEntityRepository.findByStr("sample_string");
   }
 }

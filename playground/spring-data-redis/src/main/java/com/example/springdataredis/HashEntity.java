@@ -11,6 +11,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Reference;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 @Data
 @RedisHash
@@ -19,6 +20,7 @@ class HashEntity {
 
   @Id
   private Long id;
+  @Indexed
   private String str;
   private BigDecimal bigDecimal;
   private boolean bool;
