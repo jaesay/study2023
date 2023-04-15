@@ -23,5 +23,5 @@ class NestedHashEntity {
   private String str;
 
   @Reference
-  private List<NestedNestedHashEntity> refRefHashEntities;
+  private List<NestedNestedHashEntity> nestedNestedHashEntities;
 }
