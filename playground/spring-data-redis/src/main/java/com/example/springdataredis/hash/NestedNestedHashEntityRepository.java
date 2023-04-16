@@ -1,4 +1,4 @@
-package com.example.springdataredis;
+package com.example.springdataredis.hash;
 
 import org.springframework.data.repository.CrudRepository;
 

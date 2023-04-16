@@ -1,4 +1,4 @@
-package com.example.springdataredis;
+package com.example.springdataredis.hash;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import java.math.BigDecimal;
