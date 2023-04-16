@@ -27,6 +27,7 @@ public class RedisConfig {
         .withCacheConfiguration("itemCache",
             RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)))
         .withCacheConfiguration("customerCache",
-            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)));
+            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)))
+        .enableStatistics();
   }
 }
