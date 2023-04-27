@@ -1,4 +1,4 @@
-package com.example.feignresilience4j;
+package com.example.resilience4jfeign;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

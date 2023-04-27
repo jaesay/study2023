@@ -1,4 +1,4 @@
-package com.example.feignresilience4j;
+package com.example.resilience4jfeign;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
