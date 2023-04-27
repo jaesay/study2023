@@ -1,0 +1,14 @@
+###
+http://localhost:8080/actuator/health
+
+###
+http://localhost:8080/actuator/prometheus
+
+###
+http://localhost:8080/actuator/circuitbreakers
+
+###
+http://localhost:8080/actuator/bulkheads
+
+###
+http://localhost:8080/actuator/timelimiters

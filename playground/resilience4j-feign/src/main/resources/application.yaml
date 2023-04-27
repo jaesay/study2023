@@ -1,0 +1,38 @@
+server.port: 8080
+
+feign:
+  httpclient:
+    enabled: true
+    maxConnections: 1000
+    maxConnectionsPerRoute: 100
+  circuitbreaker.enabled: true
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 10
+      waitDurationInOpenState: 50s
+      failureRateThreshold: 50
+
+resilience4j.timelimiter:
+  configs:
+    default:
+      timeoutDuration: 2s
+      cancelRunningFuture: true
+
+resilience4j.thread-pool-bulkhead:
+  configs:
+    default:
+      coreThreadPoolSize: 25
+      maxThreadPoolSize: 50
+      queueCapacity: 50
+
+management:
+  endpoints.web.exposure.include: "*"
+  endpoint.health.show-details: always
+  health.circuitbreakers.enabled: true
+  endpoint.prometheus.enabled: true
