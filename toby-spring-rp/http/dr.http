@@ -1,0 +1,8 @@
+###
+GET localhost:8080/dr
+
+###
+GET localhost:8080/dr/count
+
+###
+GET localhost:8080/dr/event?msg=Result
