@@ -1,6 +1,7 @@
 package com.example.tobyspringrp;
 
 import io.netty.channel.nio.NioEventLoopGroup;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,11 +20,13 @@ import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import javax.annotation.processing.Completion;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 @SpringBootApplication
 @EnableAsync
+@Slf4j
 public class AsyncRestApp {
 
   @RestController
@@ -41,11 +44,31 @@ public class AsyncRestApp {
     public DeferredResult<String> rest(int idx) {
       DeferredResult<String> dr = new DeferredResult<>();
 
-      Completion.from(asyncRestTemplate.getForEntity(URL1, String.class, "hello" + idx))
-          .andApply(s -> asyncRestTemplate.getForEntity(URL2, String.class, s.getBody()))
-          .andApply(s -> myService.work(s.getBody()))
-          .andError(e -> dr.setErrorResult(e.toString()))
-          .andAccept(s -> dr.setResult(s));
+      toCF(asyncRestTemplate.getForEntity(URL1, String.class, "hello" + idx))
+          .thenCompose(s -> {
+            log.info("thenCompose");
+//            if (1 == 1) throw new RuntimeException("ERROR");
+            return toCF(asyncRestTemplate.getForEntity(URL2, String.class, s.getBody()));
+          })
+//          .thenApply(s2 -> myService.work(s2.getBody()))
+          .thenApplyAsync(s2 -> {
+            log.info("thenApplyAsync");
+            return myService.work(s2.getBody());
+          })
+          .thenAccept(s3 -> {
+            log.info("thenAccept");
+            dr.setResult(s3);
+          })
+          .exceptionally(e -> {
+            dr.setErrorResult(e.getMessage());
+            return null;
+          });
+
+//      Completion.from(asyncRestTemplate.getForEntity(URL1, String.class, "hello" + idx))
+//          .andApply(s -> asyncRestTemplate.getForEntity(URL2, String.class, s.getBody()))
+//          .andApply(s -> myService.work(s.getBody()))
+//          .andError(e -> dr.setErrorResult(e.toString()))
+//          .andAccept(s -> dr.setResult(s));
 
 //      ListenableFuture<ResponseEntity<String>> f1 = asyncRestTemplate.getForEntity(
 //          "http://localhost:8081/service?req={req}", String.class, "hello" + idx);
@@ -69,6 +92,12 @@ public class AsyncRestApp {
 //      });
 
       return dr;
+    }
+
+    <T> CompletableFuture<T> toCF(ListenableFuture<T> lf) {
+      CompletableFuture<T> cf = new CompletableFuture<>();
+      lf.addCallback(s -> cf.complete(s), e -> cf.completeExceptionally(e));
+      return cf;
     }
   }
 
@@ -162,9 +191,12 @@ public class AsyncRestApp {
   @Service
   public static class MyService {
 
-    @Async
-    public ListenableFuture<String> work(String req) {
-      return new AsyncResult<>(req + "/asyncwork");
+//    @Async
+//    public ListenableFuture<String> work(String req) {
+//      return new AsyncResult<>(req + "/asyncwork");
+//    }
+    public String work(String req) {
+      return req + "/asyncwork";
     }
   }
 
