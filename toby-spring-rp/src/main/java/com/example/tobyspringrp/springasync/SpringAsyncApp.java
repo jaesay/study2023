@@ -1,29 +1,17 @@
-package com.example.tobyspringrp;
+package com.example.tobyspringrp.springasync;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Component;
-import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
+//import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
-import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @EnableAsync
 @Slf4j
@@ -37,23 +25,23 @@ public class SpringAsyncApp {
      * HTTP Streaming
      * HTTP SSE(Server-Sent Events) 표준에 따라서 데이터를 스트리밍 방식으로 응답하면 데이터를 나눠서 보낼 수 있다.
      */
-    @GetMapping("/emitter")
-    public ResponseBodyEmitter emitter() {
-      ResponseBodyEmitter emitter = new ResponseBodyEmitter();
-
-      Executors.newSingleThreadExecutor().submit(() -> {
-        for (int i = 0; i < 50; i++) {
-          try {
-            emitter.send("<p>Stream " + i + "</p>");
-            Thread.sleep(100);
-          } catch (Exception e) {
-            throw new RuntimeException(e);
-          }
-        }
-      });
-
-      return emitter;
-    }
+//    @GetMapping("/emitter")
+//    public ResponseBodyEmitter emitter() {
+//      ResponseBodyEmitter emitter = new ResponseBodyEmitter();
+//
+//      Executors.newSingleThreadExecutor().submit(() -> {
+//        for (int i = 0; i < 50; i++) {
+//          try {
+//            emitter.send("<p>Stream " + i + "</p>");
+//            Thread.sleep(100);
+//          } catch (Exception e) {
+//            throw new RuntimeException(e);
+//          }
+//        }
+//      });
+//
+//      return emitter;
+//    }
 
     Queue<DeferredResult<String>> results = new ConcurrentLinkedQueue<>();
 
