@@ -1,2 +1,5 @@
 ###
 GET localhost:8080/rest?idx=1
+
+###
+GET localhost:8080

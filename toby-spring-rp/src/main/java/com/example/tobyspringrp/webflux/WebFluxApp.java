@@ -22,6 +22,23 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @EnableAsync
 public class WebFluxApp {
+
+  @GetMapping("/")
+  Mono<String> hello() {
+    log.info("pos1");
+//    Mono<String> m = Mono.just(generateHello()).doOnNext(c -> log.info(c)).log();
+    Mono<String> m = Mono.fromSupplier(() -> generateHello()).doOnNext(c -> log.info(c)).log();
+    m.subscribe();
+    log.info("pos2");
+    return m;
+  }
+
+  private String generateHello() {
+    log.info("generateHello()");
+    return "Hello Mono";
+  }
+
+
   static final String URL1 = "http://localhost:8081/service?req={req}";
   static final String URL2 = "http://localhost:8081/service2?req={req}";
 
