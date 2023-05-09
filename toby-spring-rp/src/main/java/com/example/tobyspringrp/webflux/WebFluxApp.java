@@ -1,20 +1,27 @@
 package com.example.tobyspringrp.webflux;
 
 import io.netty.channel.nio.NioEventLoopGroup;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
+import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @SpringBootApplication
@@ -22,6 +29,29 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @EnableAsync
 public class WebFluxApp {
+
+  @GetMapping("/events/{id}")
+  Mono<List<Event>> events(@PathVariable long id) {
+    List<Event> events = List.of(new Event(1L, "event1"), new Event(2L, "event2"));
+    return Mono.just(events);
+  }
+
+  @GetMapping(value = "/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+  Flux<Event> events() {
+    Flux<String> es = Flux.generate(sink -> sink.next("value"));
+    Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
+
+    return Flux.zip(es, interval)
+        .log()
+        .map(tu -> new Event(tu.getT2(), tu.getT1()))
+        .take(10);
+  }
+
+  @Data @AllArgsConstructor
+  public static class Event {
+    private Long id;
+    private String value;
+  }
 
   @GetMapping("/")
   Mono<String> hello() {
