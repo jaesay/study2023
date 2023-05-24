@@ -1,0 +1,21 @@
+# curl -i
+#-d '{"movieInfoId":1, "name": "Batman Begins", "year":2005,"cast":["Christian Bale", "Michael Cane", "Liam Neeson"],"release_date": "2005-06-15"}'
+#-H "Content-Type: application/json"
+#-X PUT http://localhost:8080/v1/movieinfos/1
+PUT http://localhost:8080/v1/movieinfos/1
+Content-Type: application/json
+
+{
+  "movieInfoId": 1,
+  "name": "Batman Begins",
+  "year": 2005,
+  "cast": [
+    "Christian Bale",
+    "Michael Cane",
+    "Liam Neeson"
+  ],
+  "release_date": "2005-06-15"
+}
+
+###
+

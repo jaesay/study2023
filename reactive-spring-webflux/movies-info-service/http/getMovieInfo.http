@@ -1,0 +1,10 @@
+# curl -i http://localhost:8080/v1/movieinfos
+GET http://localhost:8080/v1/movieinfos
+
+###
+
+# curl -i http://localhost:8080/v1/movieinfos/1
+GET http://localhost:8080/v1/movieinfos/1
+
+###
+
