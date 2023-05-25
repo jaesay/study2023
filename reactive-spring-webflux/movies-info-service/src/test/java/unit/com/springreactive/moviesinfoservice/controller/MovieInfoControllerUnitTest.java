@@ -88,6 +88,25 @@ class MovieInfoControllerUnitTest {
   }
 
   @Test
+  void addMovieInfo_validation() {
+    MovieInfo movieInfo = new MovieInfo("mockId", "",
+        -2005, List.of(""), LocalDate.parse("2005-06-15"));
+
+    webTestClient
+        .post()
+        .uri(MOVIE_INFO_URI)
+        .bodyValue(movieInfo)
+        .exchange()
+        .expectStatus()
+        .isBadRequest()
+        .expectBody(String.class)
+        .consumeWith(stringEntityExchangeResult -> {
+          String responseBody = stringEntityExchangeResult.getResponseBody();
+          assertThat(responseBody).isEqualTo("movieInfo.cast must be present,movieInfo.name must be present,movieInfo.year must be a positive value");
+        });
+  }
+
+  @Test
   void updateMovieInfo() {
     String id = "abc";
     MovieInfo movieInfo = new MovieInfo("abc", "Dark Knight Rises1",
