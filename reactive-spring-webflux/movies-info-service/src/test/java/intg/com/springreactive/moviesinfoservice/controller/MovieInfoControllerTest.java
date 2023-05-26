@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(
@@ -63,6 +62,22 @@ class MovieInfoControllerTest {
         .isOk()
         .expectBodyList(MovieInfo.class)
         .hasSize(3);
+  }
+
+  @Test
+  void getMovieInfosByYear() {
+    var uri = UriComponentsBuilder.fromUriString(MOVIE_INFO_URI)
+        .queryParam("year", 2005)
+        .toUriString();
+
+    webTestClient
+        .get()
+        .uri(uri)
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectBodyList(MovieInfo.class)
+        .hasSize(1);
   }
 
   @Test
