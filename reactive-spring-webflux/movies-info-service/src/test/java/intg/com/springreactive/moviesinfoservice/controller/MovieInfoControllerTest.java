@@ -80,6 +80,18 @@ class MovieInfoControllerTest {
   }
 
   @Test
+  void getMovieInfoById_notfound() {
+    String movieInfoId = "def";
+
+    webTestClient
+        .get()
+        .uri(MOVIE_INFO_URI + "/{id}", movieInfoId)
+        .exchange()
+        .expectStatus()
+        .isNotFound();
+  }
+
+  @Test
   void addMovieInfo() {
     MovieInfo movieInfo = new MovieInfo(null, "Batman Begins1",
         2005, List.of("Christian Bale", "Michael Cane"), LocalDate.parse("2005-06-15"));
@@ -110,6 +122,8 @@ class MovieInfoControllerTest {
         .uri(MOVIE_INFO_URI + "/{id}", id)
         .bodyValue(movieInfo)
         .exchange()
+        .expectStatus()
+        .isOk()
         .expectBody(MovieInfo.class)
         .consumeWith(movieInfoEntityExchangeResult -> {
           MovieInfo savedMovieInfo = movieInfoEntityExchangeResult.getResponseBody();
@@ -117,6 +131,21 @@ class MovieInfoControllerTest {
           assertThat(savedMovieInfo.getMovieInfoId()).isEqualTo(id);
           assertThat(savedMovieInfo.getName()).isEqualTo("Dark Knight Rises1");
         });
+  }
+
+  @Test
+  void updateMovieInfo_notfound() {
+    String id = "def";
+    MovieInfo movieInfo = new MovieInfo("abc", "Dark Knight Rises1",
+        2012, List.of("Christian Bale", "Tom Hardy"), LocalDate.parse("2012-07-20"));
+
+    webTestClient
+        .put()
+        .uri(MOVIE_INFO_URI + "/{id}", id)
+        .bodyValue(movieInfo)
+        .exchange()
+        .expectStatus()
+        .isNotFound();
   }
 
   @Test
