@@ -1,6 +1,7 @@
 package com.reactivespring.router;
 
 import com.reactivespring.domain.Review;
+import com.reactivespring.exceptionhandler.GlobalErrorHandler;
 import com.reactivespring.handler.ReviewHandler;
 import com.reactivespring.repository.ReviewReactiveRepository;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.BDDMockito.given;
 
 @WebFluxTest
-@ContextConfiguration(classes = {ReviewRouter.class, ReviewHandler.class})
+@ContextConfiguration(classes = {ReviewRouter.class, ReviewHandler.class, GlobalErrorHandler.class})
 class ReviewsUnitTest {
 
   @MockBean
@@ -62,7 +63,9 @@ class ReviewsUnitTest {
         .bodyValue(review)
         .exchange()
         .expectStatus()
-        .is5xxServerError();
+        .isBadRequest()
+        .expectBody(String.class)
+        .isEqualTo("review.movieInfoId must be a positive value,review.rating must be a non-negative value");
   }
 
   @Test
