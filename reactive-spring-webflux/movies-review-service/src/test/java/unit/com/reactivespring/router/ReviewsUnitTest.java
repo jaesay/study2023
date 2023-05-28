@@ -112,6 +112,21 @@ class ReviewsUnitTest {
   }
 
   @Test
+  void updateReview_validation() {
+    Review reviewUpdate = new Review(null, 1L, "Not an Awesome Movie", 8.0);
+    given(reviewReactiveRepository.findById(anyString())).willReturn(Mono.empty());
+
+    webTestClient
+        .put()
+        .uri("/v1/reviews/{id}", "abc")
+        .bodyValue(reviewUpdate)
+        .exchange()
+        .expectStatus().isNotFound();
+//        .expectBody(String.class)
+//        .isEqualTo("Review not found for the given review id : abc");
+  }
+
+  @Test
   void deleteReview() {
     var reviewId = "abc";
     given(reviewReactiveRepository.findById(anyString())).willReturn(Mono.just(new Review("abc", 1L, "Awesome Movie", 9.0)));
