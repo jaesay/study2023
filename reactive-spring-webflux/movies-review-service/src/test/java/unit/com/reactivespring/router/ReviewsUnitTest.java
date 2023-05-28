@@ -53,6 +53,19 @@ class ReviewsUnitTest {
   }
 
   @Test
+  void addReview_validation() {
+    Review review = new Review(null, 0L, "Awesome Movie", -9.0);
+
+    webTestClient
+        .post()
+        .uri(REVIEWS_URL)
+        .bodyValue(review)
+        .exchange()
+        .expectStatus()
+        .is5xxServerError();
+  }
+
+  @Test
   void getReviews() {
     List<Review> reviewList = List.of(
         new Review(null, 1L, "Awesome Movie", 9.0),
