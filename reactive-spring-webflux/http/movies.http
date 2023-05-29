@@ -1,8 +1,11 @@
 ### MovieId 1번 Movie 조회
 GET http://localhost:8082/v1/movies/1
 
-### ### MovieId 2번 Movie 조회
+### MovieId 2번 Movie 조회
 GET http://localhost:8082/v1/movies/2
+
+### MovieId 3번 Movie 조회
+GET http://localhost:8082/v1/movies/3
 
 ###
 POST http://localhost:8080/v1/movieinfos
@@ -16,7 +19,7 @@ Content-Type: application/json
     "Christian Bale",
     "Michael Cane"
   ],
-  "release_date": "2005-06-15"
+  "releasedDate": "2005-06-15"
 }
 
 ###
@@ -31,7 +34,7 @@ Content-Type: application/json
     "Christian Bale",
     "HeathLedger"
   ],
-  "release_date": "2008-07-18"
+  "releasedDate": "2008-07-18"
 }
 
 ###
