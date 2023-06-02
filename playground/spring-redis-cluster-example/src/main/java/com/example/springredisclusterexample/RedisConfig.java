@@ -16,23 +16,23 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 public class RedisConfig {
   private final RedisProperties redisProperties;
 
-//  @Bean
-//  public RedisConnectionFactory redisConnectionFactory() {
-//    var clusterConfig = new RedisClusterConfiguration(redisProperties.getCluster().getNodes());
-//    clusterConfig.setPassword(redisProperties.getPassword());
-//
-//    var topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
-//        .enableAllAdaptiveRefreshTriggers()
-//        .build();
-//
-//    var clientOptions = ClusterClientOptions.builder()
-//        .topologyRefreshOptions(topologyRefreshOptions)
-//        .build();
-//
-//    var clientConfig = LettuceClientConfiguration.builder()
-//        .clientOptions(clientOptions)
-//        .build();
-//
-//    return new LettuceConnectionFactory(clusterConfig, clientConfig);
-//  }
+  @Bean
+  public RedisConnectionFactory redisConnectionFactory() {
+    var clusterConfig = new RedisClusterConfiguration(redisProperties.getCluster().getNodes());
+    clusterConfig.setPassword(redisProperties.getPassword());
+
+    var topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
+        .enableAllAdaptiveRefreshTriggers()
+        .build();
+
+    var clientOptions = ClusterClientOptions.builder()
+        .topologyRefreshOptions(topologyRefreshOptions)
+        .build();
+
+    var clientConfig = LettuceClientConfiguration.builder()
+        .clientOptions(clientOptions)
+        .build();
+
+    return new LettuceConnectionFactory(clusterConfig, clientConfig);
+  }
 }
