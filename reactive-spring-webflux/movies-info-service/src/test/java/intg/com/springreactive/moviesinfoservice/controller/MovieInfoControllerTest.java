@@ -10,10 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -124,6 +127,39 @@ class MovieInfoControllerTest {
           assertThat(savedMovieInfo).isNotNull();
           assertThat(savedMovieInfo.getMovieInfoId()).isNotNull();
         });
+  }
+
+  @Test
+  void streamMovieInfos() {
+    //given
+    MovieInfo movieInfo = new MovieInfo(null, "Batman Begins1",
+        2005, List.of("Christian Bale", "Michael Cane"), LocalDate.parse("2005-06-15"));
+
+    webTestClient
+        .post()
+        .uri(MOVIE_INFO_URI)
+        .bodyValue(movieInfo)
+        .exchange()
+        .expectStatus()
+        .isCreated();
+
+    //when
+    Flux<MovieInfo> flux = webTestClient
+        .get()
+        .uri(MOVIE_INFO_URI + "/stream")
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .returnResult(MovieInfo.class)
+        .getResponseBody();
+
+    //then
+    StepVerifier.create(flux)
+        .assertNext(newMovieInfo -> {
+          assertThat(newMovieInfo.getMovieInfoId()).isNotNull();
+        })
+        .thenCancel()
+        .verify();
   }
 
   @Test

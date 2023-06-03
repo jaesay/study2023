@@ -16,10 +16,11 @@ public class ReviewRouter {
   public RouterFunction<ServerResponse> reviewsRouter(ReviewHandler reviewHandler) {
     return route()
         .nest(path("/v1/reviews"), builder -> builder
-            .POST("", request -> reviewHandler.addReview(request))
-            .GET("", request -> reviewHandler.getReviews(request))
-            .PUT("{id}", request -> reviewHandler.updateReview(request))
-            .DELETE("{id}", request -> reviewHandler.deleteReview(request))
+            .POST("", reviewHandler::addReview)
+            .GET("", reviewHandler::getReviews)
+            .PUT("{id}", reviewHandler::updateReview)
+            .DELETE("{id}", reviewHandler::deleteReview)
+            .GET("stream", request->reviewHandler.streamReviews(request))
         )
         .GET("/v1/helloworld", request -> ServerResponse.ok().bodyValue("helloworld"))
         .build();
