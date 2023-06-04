@@ -1,5 +1,6 @@
 package com.redis.rl;
 
+import com.redis.lettucemod.api.StatefulRedisModulesConnection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,14 +20,17 @@ class Router {
   private final ReactiveRedisTemplate<String, Long> redisTemplate;
   private final RedisScript<Boolean> script;
   private final Long maxRequestPerMinute;
+  private final StatefulRedisModulesConnection<String, String> connection;
 
   public Router(ReactiveRedisTemplate<String, Long> redisTemplate,
                 RedisScript<Boolean> script,
-                @Value("${MAX_REQUESTS_PER_MINUTE}") Long maxRequestPerMinute) {
+                @Value("${MAX_REQUESTS_PER_MINUTE}") Long maxRequestPerMinute,
+                StatefulRedisModulesConnection<String, String> connection) {
 
     this.redisTemplate = redisTemplate;
     this.script = script;
     this.maxRequestPerMinute = maxRequestPerMinute;
+    this.connection = connection;
   }
 
   @Bean
@@ -37,7 +41,8 @@ class Router {
             .body(BodyInserters.fromValue("PONG"))
         )
 //        .filter(new RateLimiterHandlerFilterFunction(redisTemplate))
-        .filter(new LuaRateLimiterHandlerFilterFunction(redisTemplate, script, maxRequestPerMinute))
+//        .filter(new LuaRateLimiterHandlerFilterFunction(redisTemplate, script, maxRequestPerMinute))
+        .filter(new RgRateLimiterHandlerFilterFunction(connection, maxRequestPerMinute))
         .build();
   }
 }
