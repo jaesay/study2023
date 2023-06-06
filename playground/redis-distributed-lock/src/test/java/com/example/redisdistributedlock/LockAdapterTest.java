@@ -1,7 +1,6 @@
 package com.example.redisdistributedlock;
 
 import com.redis.testcontainers.RedisContainer;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,63 +13,57 @@ import java.util.List;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class LockAdapterTest {
 
+  static final Long FIRST_USER_ID = 1L;
+  static final Long SECOND_USER_ID = 2L;
+  static final Long THIRD_USER_ID = 3L;
+
   @Container
-  static final RedisContainer redis = new RedisContainer(RedisContainer.DEFAULT_IMAGE_NAME.withTag(RedisContainer.DEFAULT_TAG));
+  static final RedisContainer REDIS = new RedisContainer(RedisContainer.DEFAULT_IMAGE_NAME.withTag(RedisContainer.DEFAULT_TAG));
 
   @Autowired
-  private LockAdapter lockAdapter;
+  LockAdapter lockAdapter;
 
-  private final Long firstUserId = 1L;
-  private final Long secondUserId = 2L;
-  private final Long thirdUserId = 3L;
 
   @DynamicPropertySource
   public static void setUpContainers(DynamicPropertyRegistry registry) {
-    redis.start();
+    REDIS.start();
 
-    registry.add("spring.redis.host", redis::getHost);
-    registry.add("spring.redis.port", redis::getFirstMappedPort);
+    registry.add("spring.redis.host", REDIS::getHost);
+    registry.add("spring.redis.port", REDIS::getFirstMappedPort);
   }
 
   @Test
   @DisplayName("firstUserId가 락을 선점한다.")
-  public void testLock() {
+  void testLock() {
     final Long hotelId = 123123123L;
 
-    Boolean isSuccess = lockAdapter.holdLock(hotelId, firstUserId);
-    Assertions.assertTrue(isSuccess);
-
-    isSuccess = lockAdapter.holdLock(hotelId, secondUserId);
-    Assertions.assertFalse(isSuccess);
-
-    isSuccess = lockAdapter.holdLock(hotelId, thirdUserId);
-    Assertions.assertFalse(isSuccess);
-
-    Long holderId = lockAdapter.checkLock(hotelId);
-    Assertions.assertEquals(firstUserId, holderId);
+    assertThat(lockAdapter.holdLock(hotelId, FIRST_USER_ID)).isTrue();
+    assertThat(lockAdapter.holdLock(hotelId, SECOND_USER_ID)).isFalse();
+    assertThat(lockAdapter.holdLock(hotelId, THIRD_USER_ID)).isFalse();
+    assertThat(lockAdapter.checkLock(hotelId)).isEqualTo(FIRST_USER_ID);
   }
 
   @Test
   @DisplayName("3명이 동시에 락을 선점하지만 1명만 락을 잡는다.")
-  public void testConcurrentAccess() throws InterruptedException {
+  void testConcurrentAccess() throws InterruptedException {
 
     final Long hotelId = 9999999L;
     lockAdapter.clearLock(hotelId);
 
     CyclicBarrier cyclicBarrier = new CyclicBarrier(3);
-    new Thread(new Accessor(hotelId, firstUserId, cyclicBarrier)).start();
-    new Thread(new Accessor(hotelId, secondUserId, cyclicBarrier)).start();
-    new Thread(new Accessor(hotelId, thirdUserId, cyclicBarrier)).start();
+    new Thread(new Accessor(hotelId, FIRST_USER_ID, cyclicBarrier)).start();
+    new Thread(new Accessor(hotelId, SECOND_USER_ID, cyclicBarrier)).start();
+    new Thread(new Accessor(hotelId, THIRD_USER_ID, cyclicBarrier)).start();
     TimeUnit.SECONDS.sleep(1);
 
     Long holderId = lockAdapter.checkLock(hotelId);
-    Assertions.assertTrue(List.of(firstUserId, secondUserId, thirdUserId).contains(holderId));
-
+    assertThat(holderId).isIn(List.of(FIRST_USER_ID, SECOND_USER_ID, THIRD_USER_ID));
     lockAdapter.clearLock(hotelId);
   }
 
