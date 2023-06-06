@@ -20,6 +20,7 @@ repositories {
 
 ext {
     set('testcontainersVersion', "1.18.3")
+    set('testcontainersRedisVersion', "1.6.4")
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation "com.redis.testcontainers:testcontainers-redis:${testcontainersRedisVersion}"
 }
 
 dependencyManagement {
