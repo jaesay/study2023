@@ -1,0 +1,26 @@
+### Product 조회 성공
+GET http://localhost:7070/sec01/product/1
+accept: */*
+
+### Product 조회 실패(404)
+GET http://localhost:7070/sec01/product/51
+accept: */*
+
+### Promotion 조회 성공
+GET http://localhost:7070/sec01/promotion/1
+accept: */*
+
+### Promotion 조회 실패(404)
+GET http://localhost:7070/sec01/promotion/10
+accept: */*
+
+### Review 조회 성공
+GET http://localhost:7070/sec01/review/1
+accept: */*
+
+### Review 조회 실패(404)
+GET http://localhost:7070/sec01/review/10
+accept: */*
+
+
+
