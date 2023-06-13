@@ -1,5 +1,0 @@
-### 정상
-GET localhost:8080/v2/request?itemId=hello
-
-### 실패
-GET localhost:8080/v2/request?itemId=ex
