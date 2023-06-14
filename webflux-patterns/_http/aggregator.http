@@ -1,0 +1,2 @@
+### 1번 Product 조회
+GET http://localhost:8080/aggregators/products/1

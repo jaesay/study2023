@@ -1,0 +1,5 @@
+client:
+  aggregator:
+    product-url: http://localhost:7070/sec01/product/
+    promotion-url: http://localhost:7070/sec01/promotion/
+    review-url: http://localhost:7070/sec01/review/
