@@ -22,5 +22,7 @@ accept: */*
 GET http://localhost:7070/sec01/review/10
 accept: */*
 
-
+### Review 조회 실패(500)
+GET http://localhost:7070/sec01/review/7
+accept: */*
 

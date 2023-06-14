@@ -1,2 +1,8 @@
 ### 1번 Product 조회
 GET http://localhost:8080/aggregators/products/1
+
+### 프로모션 서비스가 실패할 때 Product 조회
+GET http://localhost:8080/aggregators/products/5
+
+### 리뷰 서비스가 실패할 때 Product 조회
+GET http://localhost:8080/aggregators/products/7

@@ -23,6 +23,7 @@ public class ProductAggregateService {
   private final ReviewClient reviewClient;
 
   public Mono<ProductAggregate> aggregate(long productId) {
+    // zip 은 all or nothing 유사, 하나가 실패하거나 empty signal을 주면 nothing (error or empty signal)
     return Mono.zip(
             productClient.getProduct(productId),
             promotionClient.getPromotion(productId),
