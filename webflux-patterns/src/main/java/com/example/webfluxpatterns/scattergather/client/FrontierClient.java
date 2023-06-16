@@ -14,7 +14,7 @@ public class FrontierClient {
 
   private final WebClient client;
 
-  public FrontierClient(@Value("${${client.scatter-gather.frontier-url}}") String baseUrl) {
+  public FrontierClient(@Value("${client.scatter-gather.frontier-url}") String baseUrl) {
     this.client = WebClient.builder()
         .baseUrl(baseUrl)
         .build();
@@ -26,6 +26,7 @@ public class FrontierClient {
         .bodyValue(FrontierRequest.create(from, to))
         .retrieve()
         .bodyToFlux(FlightResult.class)
+        .log()
         .onErrorResume(ex -> Mono.empty());
   }
 

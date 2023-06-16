@@ -25,6 +25,7 @@ public class JetBlueClient {
         .uri("{from}/{to}", from, to)
         .retrieve()
         .bodyToFlux(FlightResult.class)
+        .log()
         .doOnNext(fr -> this.normalizeResponse(fr, from, to))
         .onErrorResume(ex -> Mono.empty());
   }

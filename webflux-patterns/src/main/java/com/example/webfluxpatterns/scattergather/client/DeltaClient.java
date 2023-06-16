@@ -12,7 +12,7 @@ public class DeltaClient {
 
   private final WebClient client;
 
-  public DeltaClient(@Value("${${client.scatter-gather.delta-url}}") String baseUrl) {
+  public DeltaClient(@Value("${client.scatter-gather.delta-url}") String baseUrl) {
     this.client = WebClient.builder()
         .baseUrl(baseUrl)
         .build();
@@ -24,6 +24,7 @@ public class DeltaClient {
         .uri("{from}/{to}", from, to)
         .retrieve()
         .bodyToFlux(FlightResult.class)
+        .log()
         .onErrorResume(ex -> Mono.empty());
   }
 }

@@ -1,0 +1,3 @@
+### 항공사 ATL -> LOS 티켓 조회
+GET localhost:8080/scatter-gather/flights/ATL/LOS
+accept: text/event-stream
