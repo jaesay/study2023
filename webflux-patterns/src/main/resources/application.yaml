@@ -3,3 +3,7 @@ client:
     product-url: http://localhost:7070/sec01/product/
     promotion-url: http://localhost:7070/sec01/promotion/
     review-url: http://localhost:7070/sec01/review/
+  scatter-gather:
+    delta-url: http://localhost:7070/sec02/delta/
+    frontier-url: http://localhost:7070/sec02/frontier/
+    jetblue-url: http://localhost:7070/sec02/jetblue/

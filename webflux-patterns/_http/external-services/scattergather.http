@@ -1,0 +1,19 @@
+### delta 항공사의 ATL -> LOS 티켓 정보 (Occasional error)
+GET http://localhost:7070/sec02/delta/ATL/LOS
+accept: text/event-stream
+
+### frontier 항공사의 ATL -> LOS 티켓 정보 (Occasional error)
+POST http://localhost:7070/sec02/frontier
+accept: text/event-stream
+Content-Type: application/json
+
+{
+  "from": "ATL",
+  "to": "LOS"
+}
+
+### jetblue 항공사의 ATL -> LOS 티켓 정보 (Occasional error)
+GET http://localhost:7070/sec02/jetblue/ATL/LOS
+accept: text/event-stream
+
+
