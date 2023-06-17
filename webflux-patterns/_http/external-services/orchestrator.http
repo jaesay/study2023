@@ -1,0 +1,104 @@
+### 1번 상품 조회
+GET http://localhost:7070/sec03/product/1
+accept: */*
+
+### 1번 유저 조회
+GET http://localhost:7070/sec03/user/1
+accept: */*
+
+### 1번 유저 10원 차감
+POST http://localhost:7070/sec03/user/deduct
+accept: */*
+Content-Type: application/json
+
+{
+  "amount": 10,
+  "orderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "userId": 1
+}
+
+### 1번 유저 10000원 차감(실패)
+POST http://localhost:7070/sec03/user/deduct
+accept: */*
+Content-Type: application/json
+
+{
+  "amount": 10000,
+  "orderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "userId": 1
+}
+
+### 1번 유저 10원 환불
+POST http://localhost:7070/sec03/user/refund
+accept: */*
+Content-Type: application/json
+
+{
+  "amount": 10,
+  "orderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "userId": 1
+}
+
+### 1번 상품 재고 조회
+GET http://localhost:7070/sec03/inventory/1
+accept: */*
+
+### 1번 상품 재고 7개 차감
+POST http://localhost:7070/sec03/inventory/deduct
+accept: */*
+Content-Type: application/json
+
+{
+  "orderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "productId": 1,
+  "quantity": 7
+}
+
+### 1번 상품 재고 7개 복구
+POST http://localhost:7070/sec03/inventory/restore
+accept: */*
+Content-Type: application/json
+
+{
+  "orderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "productId": 1,
+  "quantity": 7
+}
+
+### 배송 일정 추가
+POST http://localhost:7070/sec03/shipping/schedule
+accept: */*
+Content-Type: application/json
+
+{
+  "orderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "quantity": 1,
+  "userId": 1
+}
+
+### 배송 일정 취소
+POST http://localhost:7070/sec03/shipping/cancel
+accept: */*
+Content-Type: application/json
+
+{
+  "orderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "quantity": 1,
+  "userId": 1
+}
+
+###
+
+
+
+
+
+
+
+
+
+
+
+
+
+
