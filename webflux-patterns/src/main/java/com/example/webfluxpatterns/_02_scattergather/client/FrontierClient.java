@@ -14,7 +14,7 @@ public class FrontierClient {
 
   private final WebClient client;
 
-  public FrontierClient(@Value("${client.scatter-gather.frontier-url}") String baseUrl) {
+  public FrontierClient(@Value("${sec02.frontier.service}") String baseUrl) {
     this.client = WebClient.builder()
         .baseUrl(baseUrl)
         .build();

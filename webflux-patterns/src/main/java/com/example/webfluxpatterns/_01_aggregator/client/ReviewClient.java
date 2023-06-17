@@ -14,7 +14,7 @@ public class ReviewClient {
 
   private final WebClient client;
 
-  public ReviewClient(@Value("${client.aggregator.review-url}") String baseUrl){
+  public ReviewClient(@Value("${sec01.review.service}") String baseUrl){
     this.client = WebClient.builder()
         .baseUrl(baseUrl)
         .build();

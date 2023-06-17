@@ -11,7 +11,7 @@ public class ProductClient {
 
   private final WebClient client;
 
-  public ProductClient(@Value("${client.aggregator.product-url}") String baseUrl){
+  public ProductClient(@Value("${sec01.product.service}") String baseUrl){
     this.client = WebClient.builder()
         .baseUrl(baseUrl)
         .build();

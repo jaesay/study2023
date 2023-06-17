@@ -13,7 +13,7 @@ public class JetBlueClient {
   private static final String JETBLUE = "JETBLUE";
   private final WebClient client;
 
-  public JetBlueClient(@Value("${client.scatter-gather.jetblue-url}") String baseUrl){
+  public JetBlueClient(@Value("${sec02.jetblue.service}") String baseUrl){
     this.client = WebClient.builder()
         .baseUrl(baseUrl)
         .build();

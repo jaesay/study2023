@@ -1,9 +1,9 @@
-client:
-  aggregator:
-    product-url: http://localhost:7070/sec01/product/
-    promotion-url: http://localhost:7070/sec01/promotion/
-    review-url: http://localhost:7070/sec01/review/
-  scatter-gather:
-    delta-url: http://localhost:7070/sec02/delta/
-    frontier-url: http://localhost:7070/sec02/frontier/
-    jetblue-url: http://localhost:7070/sec02/jetblue/
+# 01. Aggregator Pattern
+sec01.product.service: http://localhost:7070/sec01/product/
+sec01.promotion.service: http://localhost:7070/sec01/promotion/
+sec01.review.service: http://localhost:7070/sec01/review/
+  
+# 02. Scatter Gather Pattern
+sec02.delta.service: http://localhost:7070/sec02/delta/
+sec02.frontier.service: http://localhost:7070/sec02/frontier/
+sec02.jetblue.service: http://localhost:7070/sec02/jetblue/

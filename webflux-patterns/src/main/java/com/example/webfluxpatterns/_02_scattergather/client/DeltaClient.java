@@ -12,7 +12,7 @@ public class DeltaClient {
 
   private final WebClient client;
 
-  public DeltaClient(@Value("${client.scatter-gather.delta-url}") String baseUrl) {
+  public DeltaClient(@Value("${sec02.delta.service}") String baseUrl) {
     this.client = WebClient.builder()
         .baseUrl(baseUrl)
         .build();
