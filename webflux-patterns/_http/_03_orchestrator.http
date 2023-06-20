@@ -1,4 +1,24 @@
-# External Services
+### 상품 주문
+POST http://localhost:8080/sec03/order
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "productId": 1,
+  "quantity": 1
+}
+
+### 존재하지 않는 상품 주문 (404)
+POST http://localhost:8080/sec03/order
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "productId": 51,
+  "quantity": 5
+}
+
+### External Services
 ### 1번 상품 조회
 GET http://localhost:7070/sec03/product/1
 accept: */*
