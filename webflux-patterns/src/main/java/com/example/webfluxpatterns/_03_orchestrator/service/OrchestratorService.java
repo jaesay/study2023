@@ -2,6 +2,7 @@ package com.example.webfluxpatterns._03_orchestrator.service;
 
 import com.example.webfluxpatterns._03_orchestrator.client.ProductClient;
 import com.example.webfluxpatterns._03_orchestrator.dto.*;
+import com.example.webfluxpatterns._03_orchestrator.util.DebugUtil;
 import com.example.webfluxpatterns._03_orchestrator.util.OrchestrationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class OrchestratorService {
         .doOnNext(OrchestrationUtil::buildRequestContext)
         .flatMap(fulfillmentService::placeOrder)
         .doOnNext(this::doOrderPostProcessing)
+        .doOnNext(DebugUtil::print)
         .map(this::toOrderResponse);
   }
 
