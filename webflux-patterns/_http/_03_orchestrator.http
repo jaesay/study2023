@@ -19,6 +19,8 @@ Content-Type: application/json
 }
 
 ### External Services
+>
+
 ### 1번 상품 조회
 GET http://localhost:7070/sec03/product/1
 accept: */*
