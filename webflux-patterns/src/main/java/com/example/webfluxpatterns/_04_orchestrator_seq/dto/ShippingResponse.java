@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor(staticName = "create")
 public class ShippingResponse {
 
-  private UUID orderId;
+  private UUID shippingId;
   private Integer quantity;
   private Status status;
   private String expectedDelivery;
