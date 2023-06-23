@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -20,12 +21,13 @@ public class InventoryOrchestrator extends Orchestrator {
   public Mono<OrchestrationRequestContext> create(OrchestrationRequestContext ctx) {
     return this.client.deduct(ctx.getInventoryRequest())
         .doOnNext(ctx::setInventoryResponse)
-        .thenReturn(ctx);
+        .thenReturn(ctx)
+        .handle(this.statusHandler());
   }
 
   @Override
   public Predicate<OrchestrationRequestContext> isSuccess() {
-    return ctx -> Status.SUCCESS == ctx.getInventoryResponse().getStatus();
+    return ctx -> Objects.nonNull(ctx.getInventoryResponse()) && Status.SUCCESS == ctx.getInventoryResponse().getStatus();
   }
 
   @Override

@@ -1,3 +1,13 @@
+### 상품 주문
+POST http://localhost:8080/sec04/order
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "productId": 1,
+  "quantity": 5
+}
+
 ### External Services
 >
 

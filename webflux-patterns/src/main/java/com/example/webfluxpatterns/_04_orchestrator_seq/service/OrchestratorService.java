@@ -1,9 +1,10 @@
 package com.example.webfluxpatterns._04_orchestrator_seq.service;
 
-import com.example.webfluxpatterns._04_orchestrator_seq.client.ProductClient;
-import com.example.webfluxpatterns._04_orchestrator_seq.dto.*;
+import com.example.webfluxpatterns._04_orchestrator_seq.dto.OrchestrationRequestContext;
+import com.example.webfluxpatterns._04_orchestrator_seq.dto.OrderRequest;
+import com.example.webfluxpatterns._04_orchestrator_seq.dto.OrderResponse;
+import com.example.webfluxpatterns._04_orchestrator_seq.dto.Status;
 import com.example.webfluxpatterns._04_orchestrator_seq.util.DebugUtil;
-import com.example.webfluxpatterns._04_orchestrator_seq.util.OrchestrationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -12,26 +13,16 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class OrchestratorService {
 
-  private final ProductClient productClient;
   private final OrderFulfillmentService fulfillmentService;
   private final OrderCancellationService cancellationService;
 
   public Mono<OrderResponse> placeOrder(Mono<OrderRequest> mono) {
     return mono
         .map(OrchestrationRequestContext::new)
-        .flatMap(this::getProduct)
-        .doOnNext(OrchestrationUtil::buildRequestContext)
         .flatMap(fulfillmentService::placeOrder)
         .doOnNext(this::doOrderPostProcessing)
         .doOnNext(DebugUtil::print)
         .map(this::toOrderResponse);
-  }
-
-  private Mono<OrchestrationRequestContext> getProduct(OrchestrationRequestContext ctx) {
-    return this.productClient.getProduct(ctx.getOrderRequest().getProductId())
-        .map(Product::getPrice)
-        .doOnNext(ctx::setProductPrice)
-        .map(i -> ctx);
   }
 
   private void doOrderPostProcessing(OrchestrationRequestContext ctx) {
