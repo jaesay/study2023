@@ -1,0 +1,47 @@
+### External Services
+>
+
+### Car 예약
+POST http://localhost:7070/sec05/car/reserve
+accept: */*
+Content-Type: application/json
+
+[
+  {
+    "category": "LUXURY",
+    "city": "string",
+    "drop": "2023-06-25",
+    "pickup": "2023-06-24"
+  },
+  {
+    "category": "SPORTS",
+    "city": "string",
+    "drop": "2023-06-25",
+    "pickup": "2023-06-24"
+  }
+]
+
+#### Hotel 예약
+POST http://localhost:7070/sec05/room/reserve
+accept: */*
+Content-Type: application/json
+
+[
+  {
+    "category": "KING",
+    "checkIn": "2023-06-24",
+    "checkOut": "2023-06-25",
+    "city": "string"
+  },
+  {
+    "category": "QUEEN",
+    "checkIn": "2023-06-24",
+    "checkOut": "2023-06-25",
+    "city": "string"
+  }
+]
+
+###
+
+
+
