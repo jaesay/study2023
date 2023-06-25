@@ -23,3 +23,7 @@ sec04.shipping.service: http://localhost:7070/sec04/shipping/
 # 05. Splitter Pattern
 sec05.car.service: http://localhost:7070/sec05/car/reserve
 sec05.room.service: http://localhost:7070/sec05/room/reserve
+
+# 06. Timeout Pattern
+sec06.product.service: http://localhost:7070/sec06/product/
+sec06.review.service: http://localhost:7070/sec06/review/

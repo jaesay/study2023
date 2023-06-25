@@ -1,0 +1,2 @@
+### 상품정보 가져오기
+GET localhost:8080/sec06/products/1
