@@ -31,3 +31,7 @@ sec06.review.service: http://localhost:7070/sec06/review/
 # 07. Retry Pattern
 sec07.product.service: http://localhost:7070/sec07/product/
 sec07.review.service: http://localhost:7070/sec07/review/
+
+# 08. Circuit Breaker Pattern
+sec08.product.service: http://localhost:7070/sec08/product/
+sec08.review.service: http://localhost:7070/sec08/review/
