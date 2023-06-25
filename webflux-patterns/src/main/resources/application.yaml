@@ -1,3 +1,22 @@
+resilience4j.circuitbreaker:
+  instances:
+    review-service:
+      registerHealthIndicator: true
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 4
+      minimumNumberOfCalls: 2
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10s
+      permittedNumberOfCallsInHalfOpenState: 2
+      recordExceptions:
+        - org.springframework.web.reactive.function.client.WebClientResponseException
+        - java.util.concurrent.TimeoutException
+
+management:
+  endpoints.web.exposure.include: "*"
+  endpoint.health.show-details: always
+  health.circuitbreakers.enabled: true
+
 # 01. Aggregator Pattern
 sec01.product.service: http://localhost:7070/sec01/product/
 sec01.promotion.service: http://localhost:7070/sec01/promotion/

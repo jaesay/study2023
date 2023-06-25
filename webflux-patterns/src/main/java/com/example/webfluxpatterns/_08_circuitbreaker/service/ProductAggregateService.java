@@ -24,9 +24,7 @@ public class ProductAggregateService {
             productClient.getProduct(productId),
             reviewClient.getReviews(productId)
         )
-        .log()
-        .map(t -> toDto(t.getT1(), t.getT2()))
-        .log();
+        .map(t -> toDto(t.getT1(), t.getT2()));
   }
 
   private ProductAggregate toDto(Product product, List<Review> reviews) {

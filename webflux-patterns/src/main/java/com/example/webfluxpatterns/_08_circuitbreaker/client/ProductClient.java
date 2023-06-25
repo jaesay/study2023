@@ -23,7 +23,6 @@ public class ProductClient {
         .uri("{id}", id)
         .retrieve()
         .bodyToMono(Product.class)
-        .log()
         .onErrorResume(ex -> Mono.empty());
   }
 }
