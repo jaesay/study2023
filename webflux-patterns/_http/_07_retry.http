@@ -1,2 +1,5 @@
 ### 상품정보 가져오기
 GET localhost:8080/sec07/products/1
+
+### 상품정보 가져오기(리뷰 404)
+GET localhost:8080/sec07/products/10
