@@ -11,6 +11,12 @@ resilience4j.circuitbreaker:
       recordExceptions:
         - org.springframework.web.reactive.function.client.WebClientResponseException
         - java.util.concurrent.TimeoutException
+resilience4j.ratelimiter:
+  instances:
+    calculator-service:
+      limitRefreshPeriod: 20s
+      limitForPeriod: 5
+      timeoutDuration: 5s # 요청이 초과되어도 17s에 들어온다면 타임아웃(17+5=22)되기 전에 20초가 되기 때문에 다음 윈도우에 들어가게 된다.
 
 management:
   endpoints.web.exposure.include: "*"
