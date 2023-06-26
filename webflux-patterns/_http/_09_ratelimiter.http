@@ -1,2 +1,5 @@
 ### 20초 내 5번 호출 가능
 GET localhost:8080/sec09/calculator/1
+
+### 상품정보 가져오기 (20초 내 3번 호출 가능)
+GET localhost:8080/sec09/products/1
