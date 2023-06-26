@@ -54,3 +54,7 @@ sec07.review.service: http://localhost:7070/sec07/review/
 # 08. Circuit Breaker Pattern
 sec08.product.service: http://localhost:7070/sec08/product/
 sec08.review.service: http://localhost:7070/sec08/review/
+
+# 09. Rate Limiter Pattern
+sec09.product.service: http://localhost:7070/sec09/product/
+sec09.review.service: http://localhost:7070/sec09/review/
