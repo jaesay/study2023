@@ -6,15 +6,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 @RestController
 @RequestMapping("sec10")
 public class FibController {
 
+  private final Scheduler scheduler = Schedulers.newParallel("fib", 2);
+
   // CPU intensive
   @GetMapping("/fib/{input}")
   public Mono<ResponseEntity<Long>> fib(@PathVariable Long input) {
     return Mono.fromSupplier(() -> findFib(input))
+        .subscribeOn(this.scheduler)
         .map(ResponseEntity::ok);
   }
 
