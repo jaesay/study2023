@@ -1,0 +1,35 @@
+###
+GET http://localhost:8080/users/theUser
+
+###
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "id": 10,
+  "username": "theUser",
+  "firstName": "John",
+  "lastName": "James",
+  "email": "john@email.com",
+  "password": "12345",
+  "phone": "12345",
+  "userStatus": 1
+}
+
+###
+PUT http://localhost:8080/users/theUser
+Content-Type: application/json
+
+{
+  "id": 10,
+  "username": "theUser",
+  "firstName": "John",
+  "lastName": "James",
+  "email": "john@email.com",
+  "password": "12345",
+  "phone": "12345",
+  "userStatus": 1
+}
+
+###
+DELETE http://localhost:8080/users/theUser
