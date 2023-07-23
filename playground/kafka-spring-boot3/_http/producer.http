@@ -1,0 +1,2 @@
+###
+GET http://localhost:9191/publisher/publish/hello
