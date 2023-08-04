@@ -1,6 +1,8 @@
 package com.example.restassured;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 import io.restassured.RestAssured;
 import io.restassured.mapper.TypeRef;
@@ -47,6 +49,20 @@ class MemberControllerTest {
   }
 
   @Test
+  void 회원_조회2() {
+    RestAssured
+        .given()
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .when()
+        .get("/v1/members/{memberId}", 1)
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.OK)
+        .body("id", equalTo(1))
+        .body("name", notNullValue());
+  }
+
+  @Test
   void 회원_목록_조회() {
     List<MemberDto> memberDtos = RestAssured
         .given()
@@ -64,6 +80,22 @@ class MemberControllerTest {
     assertThat(memberDtos)
         .extracting("id")
         .containsExactly(1L, 2L);
+  }
+
+  @Test
+  void 회원_목록_조회2() {
+    RestAssured
+        .given()
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .when()
+        .get("/v1/members")
+        .then()
+        .assertThat()
+        .statusCode(HttpStatus.OK)
+        .body("findAll{it}.get(0).id", equalTo(1))
+        .body("findAll{it}.get(0).name", equalTo("member1"))
+        .body("findAll{it}.get(1).id", equalTo(2))
+        .body("findAll{it}.get(1).name", equalTo("member2"));
   }
 
   @Test
