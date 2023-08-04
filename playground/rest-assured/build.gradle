@@ -23,6 +23,7 @@ repositories {
 
 ext {
     set('springCloudVersion', "2021.0.8")
+    set('restAssuredVersion', "3.3.0")
 }
 
 dependencies {
@@ -32,6 +33,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+    testImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
 }
 
 dependencyManagement {
