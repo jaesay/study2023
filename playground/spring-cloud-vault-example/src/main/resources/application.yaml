@@ -1,14 +1,11 @@
+spring.application.name: my-app
+
 spring.cloud.vault:
-  uri: http://localhost:8200
+  scheme: http
+  host: localhost
+  port: 8200
   token: my-root-token
   kv:
     enabled: true
-    backend: secret
-    profile-separator: '/'
-    default-context: application
-    application-name: my-app
-#    profiles: local, cloud
 
-#spring.config.import: vault://
-
-
+spring.config.import: vault://my-app-kv/credentials

@@ -6,9 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class MyAppSecret {
-  @Value("username")
-  private String username;
-  @Value("password")
-  private String password;
+public class Credentials {
+
+  @Value("${redisPassword}")
+  private String redisPassword;
 }
