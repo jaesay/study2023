@@ -7,5 +7,8 @@ spring.cloud.vault:
   token: my-root-token
   kv:
     enabled: true
+    default-context:
+    application-name:
+    profiles:
 
 spring.config.import: vault://my-app-kv/credentials
