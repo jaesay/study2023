@@ -12,7 +12,6 @@ public class Sample {
   private String prop1_1;
   private String prop1_2;
   private String prop2_1;
-  private String prop2_2_1;
-  private String prop2_2_2;
+  private String prop2_2;
   private String prop3;
 }
