@@ -12,7 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public class Example7 {
+public class Chapter07ExampleTest {
 
   @Test
   @DisplayName("Cold Sequence 예제")

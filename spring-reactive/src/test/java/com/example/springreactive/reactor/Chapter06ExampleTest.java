@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public class Example6 {
+public class Chapter06ExampleTest {
 
   @Test
   @DisplayName("Mono 기본 개념 예제 - 1개의 데이터를 생성해서 emit한다.")

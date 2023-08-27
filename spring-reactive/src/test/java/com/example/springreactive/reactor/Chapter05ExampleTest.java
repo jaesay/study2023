@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
-public class Example5 {
+public class Chapter05ExampleTest {
 
   @Test
   @DisplayName("5-1. Hello 코드로 보는 Reactor의 구성요소")
