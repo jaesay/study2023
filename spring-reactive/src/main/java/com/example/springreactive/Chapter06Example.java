@@ -14,6 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * CHAPTER 6. 마블 다이어그램(Marble Diagram)
+ */
 @Slf4j
 public class Chapter06Example {
 

@@ -11,6 +11,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * CHAPTER 7. Cold Sequence와 Hot Sequence
+ */
 @Slf4j
 public class Chapter07Example {
 

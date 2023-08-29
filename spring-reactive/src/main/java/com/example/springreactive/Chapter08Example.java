@@ -9,6 +9,9 @@ import reactor.core.publisher.BufferOverflowStrategy;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
+/**
+ * CHAPTER 8. Backpressure
+ */
 @Slf4j
 public class Chapter08Example {
 

@@ -10,6 +10,9 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 import reactor.core.scheduler.Schedulers;
 
+/**
+ * CHAPTER 9. Sinks
+ */
 @Slf4j
 public class Chapter09Example {
 
