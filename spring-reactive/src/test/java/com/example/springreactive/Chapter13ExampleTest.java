@@ -9,12 +9,15 @@ import com.example.springreactive.Chapter13Example.RecordTestExample;
 import com.example.springreactive.Chapter13Example.TimeBasedTestExample;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import reactor.test.StepVerifierOptions;
+import reactor.test.publisher.TestPublisher;
 import reactor.test.scheduler.VirtualTimeScheduler;
 
 @DisplayName("CHAPTER 13. Testing")
@@ -206,5 +209,49 @@ public class Chapter13ExampleTest {
                     Character.isUpperCase(country.charAt(0))))
         .expectComplete()
         .verify();
+  }
+
+  @Test
+  @DisplayName("정상동작 하는 TestPublisher 예제")
+  void example13_18() {
+    // 정상 동작하는(Well-behaved) TestPublisher의 의미: emit하는 데이터가 null인지, 요청하는 수보다 더 많은 데이터를 emit하는지 등의 리액티브 스트림즈 사양 위반 여부를 사전에 체크한다는 의미입니다.
+    // TestPublisher를 사용하면, 예제 코드처럼 간단한 숫자를 테스트하는 것이 아니라  잡한 로직이 포함된 대상 메서드를 테스트하거ㅗ건에 따라서 Signal을 변경해야 되는 등의 특정 상황을 테스트하기가 용이하다.
+    // TestPublisher가 발생시키는 Signal 유형
+    // - next(T) 또는 next(T, T...): 1개 이상의 onNext Signal을 발생시킨다.
+    // - emit(T...): 1개 이상의 onNext Signal을 발생시킨 후, onComplete Signal을 발생시킨다.
+    // - complete(): onComplete Signal을 발생시킨다.
+    // - error(Throwable): onError Signal을 발생시킨다.
+    TestPublisher<Integer> source = TestPublisher.create();
+
+    StepVerifier
+        .create(GeneralTestExample.divideByTwo(source.flux()))
+        .expectSubscription()
+        .then(() -> source.emit(2, 4, 6, 8, 10))
+        .expectNext(1, 2, 3, 4)
+        .expectError()
+        .verify();
+  }
+
+  @Test
+  @DisplayName("오동작하는 TestPublisher 예제")
+  void example13_19() {
+    // 오동작하는(Misbehaving) TestPublisher의 의미: 리액티브 스트림즈 사양 위반 여부를 사전에 체크하지 않는다는 의미이다. 따라서 리액티브 스트림즈 사양에 위반되더도 TestPublisher는 데이터를 emit할 수 있다.
+    // TestPublisher<Integer> source = TestPublisher.create();
+    TestPublisher<Integer> source = TestPublisher.createNoncompliant(TestPublisher.Violation.ALLOW_NULL);
+
+    StepVerifier
+        .create(GeneralTestExample.divideByTwo(source.flux()))
+        .expectSubscription()
+        .then(() -> {
+          getDataSource().forEach(source::next);
+          source.complete();
+        })
+        .expectNext(1, 2, 3, 4, 5)
+        .expectComplete()
+        .verify();
+  }
+
+  private static List<Integer> getDataSource() {
+    return Arrays.asList(2, 4, 6, 8, null);
   }
 }
