@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.example.springreactive.Chapter13Example.BackpressureTestExample;
 import com.example.springreactive.Chapter13Example.ContextTestExample;
 import com.example.springreactive.Chapter13Example.GeneralTestExample;
+import com.example.springreactive.Chapter13Example.PublisherProbeTestExample;
 import com.example.springreactive.Chapter13Example.RecordTestExample;
 import com.example.springreactive.Chapter13Example.TimeBasedTestExample;
 import java.time.Duration;
@@ -17,6 +18,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import reactor.test.StepVerifierOptions;
+import reactor.test.publisher.PublisherProbe;
 import reactor.test.publisher.TestPublisher;
 import reactor.test.scheduler.VirtualTimeScheduler;
 
@@ -253,5 +255,25 @@ public class Chapter13ExampleTest {
 
   private static List<Integer> getDataSource() {
     return Arrays.asList(2, 4, 6, 8, null);
+  }
+
+  @Test
+  @DisplayName("PublisherProbe 기반 테스트 대상 클래스")
+  void example13_21() {
+    // reactor-test 모듈은 PublisherProbe를 이용해 Sequence의 실행 경로를 테스트할 수 있다. 주로 조건에 따라 Sequence가 분리되는 경우, Sequence의 실행 경로를 추적해서 정상적으로 실행되었는지 테스트할 수 있다.
+    PublisherProbe<String> probe = PublisherProbe.of(PublisherProbeTestExample.supplyStandbyPower());
+
+    StepVerifier
+        .create(PublisherProbeTestExample
+            .processTask(
+                PublisherProbeTestExample.supplyMainPower(),
+                probe.mono())
+        )
+        .expectNextCount(1)
+        .verifyComplete();
+
+    probe.assertWasSubscribed();
+    probe.assertWasRequested();
+    probe.assertWasNotCancelled();
   }
 }

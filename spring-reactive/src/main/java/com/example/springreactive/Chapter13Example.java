@@ -96,4 +96,20 @@ public class Chapter13Example {
           .map(country -> country.substring(0, 1).toUpperCase() + country.substring(1));
     }
   }
+
+  public static class PublisherProbeTestExample {
+    public static Mono<String> processTask(Mono<String> main, Mono<String> standby) {
+      return main
+          .flatMap(Mono::just)
+          .switchIfEmpty(standby); // switchIfEmpty() Operator는 Upstream Publisher가 데이터 emit 없이 종룓든 경우, 대체 Publisher가 데이터를 emit한다.
+    }
+
+    public static Mono<String> supplyMainPower() {
+      return Mono.empty();
+    }
+
+    public static Mono<String> supplyStandbyPower() {
+      return Mono.just("# supply Standby Power");
+    }
+  }
 }
