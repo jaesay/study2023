@@ -3,3 +3,6 @@ GET http://localhost:8080/v1/controller/books/1
 
 ### 1번 book 조회 (functional endpoint)
 GET http://localhost:8080/v1/router/books/1
+
+### 1번 book 조회 (지점 API Server)
+GET http://localhost:8080/v1/books/1
