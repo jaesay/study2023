@@ -15,7 +15,8 @@ public class BookHandler {
 
   private final BookMapper mapper;
   private final BookValidator validator;
-  private final BookService bookService;
+//  private final BookService bookService;
+  private final BookServiceR2dbcEntityTemplate bookService;
 
   public Mono<ServerResponse> createBook(ServerRequest request) {
     return request.bodyToMono(BookDto.Post.class)

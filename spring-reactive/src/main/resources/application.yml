@@ -7,11 +7,12 @@ spring.reactor.debug-agent.enabled: false
 spring:
   config:
     activate:
-      on-profile: ch17
+      on-profile: ch18
   sql:
     init:
       platform: h2
       schema-locations: classpath*:db/h2/schema.sql
+      data-locations: classpath*:db/h2/data.sql
 
 logging:
   level:
