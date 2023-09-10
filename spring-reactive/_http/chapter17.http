@@ -1,0 +1,54 @@
+### book 생성
+POST http://localhost:8080/v1/books
+Content-Type: application/json
+
+{
+  "titleKorean": "Java 고급",
+  "titleEnglish": "Advanced Java",
+  "description": "Kevin",
+  "author": "111-11-1111-111-1",
+  "isbn": "Java 중급 프로그래밍 마스터",
+  "publishDate": "2023-09-03"
+}
+
+### book 생성 유효성 검사 실패
+POST http://localhost:8080/v1/books
+Content-Type: application/json
+
+{
+  "titleKorean": "",
+  "titleEnglish": "Advanced Java",
+  "description": "Kevin",
+  "author": "111-11-1111-111-1",
+  "isbn": "Java 중급 프로그래밍 마스터",
+  "publishDate": "2023-09-03"
+}
+
+### book 수정
+PATCH http://localhost:8080/v1/books/1
+Content-Type: application/json
+
+{
+  "titleKorean": "Java 고급2",
+  "titleEnglish": "Advanced Java",
+  "description": "Kevin",
+  "author": "111-11-1111-111-1",
+  "isbn": "Java 중급 프로그래밍 마스터",
+  "publishDate": "2023-09-03"
+}
+
+### book 수정 유효성 검사 실패
+PATCH http://localhost:8080/v1/books/1
+Content-Type: application/json
+
+{
+  "titleKorean": "",
+  "titleEnglish": "Advanced Java",
+  "description": "Kevin",
+  "author": "111-11-1111-111-1",
+  "isbn": "Java 중급 프로그래밍 마스터",
+  "publishDate": "2023-09-03"
+}
+
+### book 조회
+GET http://localhost:8080/v1/books/1
