@@ -3,11 +3,7 @@
 # implementation 'io.projectreactor:reactor-tools'
 # \uB514\uD3F4\uD2B8\uAC00 true
 spring.reactor.debug-agent.enabled: false
----
 spring:
-  config:
-    activate:
-      on-profile: ch18
   sql:
     init:
       platform: h2
