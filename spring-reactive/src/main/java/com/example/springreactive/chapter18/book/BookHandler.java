@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
+import reactor.util.function.Tuples;
 
 @Slf4j
 @Component
@@ -49,10 +51,24 @@ public class BookHandler {
             .bodyValue(mapper.bookToResponse(book)));
   }
 
+//  public Mono<ServerResponse> getBooks(ServerRequest request) {
+//    return bookService.findBooks()
+//        .flatMap(books -> ServerResponse
+//            .ok()
+//            .bodyValue(mapper.booksToResponse(books)));
+//  }
+
   public Mono<ServerResponse> getBooks(ServerRequest request) {
-    return bookService.findBooks()
+    Tuple2<Integer, Integer> pageAndSize = getPageAndSize(request);
+    return bookService.findBooks(pageAndSize.getT1(), pageAndSize.getT2())
         .flatMap(books -> ServerResponse
             .ok()
             .bodyValue(mapper.booksToResponse(books)));
+  }
+
+  private Tuple2<Integer, Integer> getPageAndSize(ServerRequest request) {
+    int page = request.queryParam("page").map(Integer::parseInt).orElse(0);
+    int size = request.queryParam("size").map(Integer::parseInt).orElse(0);
+    return Tuples.of(page, size);
   }
 }

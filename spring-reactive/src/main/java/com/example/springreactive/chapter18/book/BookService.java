@@ -4,9 +4,12 @@ import com.example.springreactive.chapter18.book.exception.BusinessLogicExceptio
 import com.example.springreactive.chapter18.book.exception.ExceptionCode;
 import com.example.springreactive.chapter18.book.utils.CustomBeanUtils;
 import java.util.List;
+import javax.validation.constraints.Positive;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -35,6 +38,13 @@ public class BookService {
 
   public Mono<List<Book>> findBooks() {
     return bookRepository.findAll().collectList();
+  }
+
+  public Mono<List<Book>> findBooks(@Positive int page, @Positive int size) {
+    return bookRepository
+        .findAllBy(PageRequest.of(page - 1, size,
+            Sort.by("bookId").descending()))
+        .collectList();
   }
 
   private Mono<Void> verifyExistIsbn(String isbn) {
