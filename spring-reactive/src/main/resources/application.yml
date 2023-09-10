@@ -2,4 +2,19 @@
 # Reactor\uC5D0\uC11C\uB294 \uC560\uD50C\uB9AC\uCF00\uC774\uC158 \uB0B4 \uBAA8\uB4E0 Operator \uCCB4\uC778\uC758 \uC2A4\uD0DD\uD2B8\uB808\uC774\uC2A4 \uCEA1\uCC98 \uBE44\uC6A9\uC744 \uC9C0\uBD88\uD558\uC9C0 \uC54A\uACE0 \uB514\uBC84\uAE45 \uC815\uBCF4\uB97C \uCD94\uAC00\uD560 \uC218 \uC788\uB3C4\uB85D \uBCC4\uB3C4\uC758 java \uC5D0\uC774\uC804\uD2B8\uB97C \uC81C\uACF5\uD55C\uB2E4.
 # implementation 'io.projectreactor:reactor-tools'
 # \uB514\uD3F4\uD2B8\uAC00 true
-spring.reactor.debug-agent.enabled=false
+spring.reactor.debug-agent.enabled: false
+---
+spring:
+  config:
+    activate:
+      on-profile: ch17
+  sql:
+    init:
+      platform: h2
+      schema-locations: classpath*:db/h2/schema.sql
+
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG
