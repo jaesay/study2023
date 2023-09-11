@@ -1,0 +1,2 @@
+### 존재하지 않는 book 조회
+GET http://localhost:8080/books/1000

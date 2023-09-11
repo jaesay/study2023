@@ -7,7 +7,7 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
 @EnableR2dbcRepositories
 @EnableR2dbcAuditing
-@SpringBootApplication(scanBasePackages = "com.example.springreactive.chapter19.book")
+@SpringBootApplication(scanBasePackages = "com.example.springreactive.chapter19")
 public class Chapter19Application {
 
   public static void main(String[] args) {

@@ -1,8 +1,10 @@
 package com.example.springreactive.chapter19.book;
 
+import com.example.springreactive.chapter19.exception.BusinessLogicException;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -25,7 +27,17 @@ public class BookHandler {
         .flatMap(post -> bookService.saveBook(mapper.bookPostToBook(post)))
         .flatMap(book -> ServerResponse
             .created(URI.create("/v5/books/" + book.getBookId()))
-            .build());
+            .build())
+        .onErrorResume(BusinessLogicException.class, error -> ServerResponse
+            .badRequest()
+            .bodyValue(new ErrorResponse(HttpStatus.BAD_REQUEST,
+                error.getMessage())))
+        .onErrorResume(Exception.class, error ->
+            ServerResponse
+                .unprocessableEntity()
+                .bodyValue(
+                    new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, error.getMessage())))
+        ;
   }
 
   public Mono<ServerResponse> updateBook(ServerRequest request) {
@@ -38,7 +50,11 @@ public class BookHandler {
           return bookService.updateBook(mapper.bookPatchToBook(patch));
         })
         .flatMap(book -> ServerResponse.ok()
-            .bodyValue(mapper.bookToResponse(book)));
+            .bodyValue(mapper.bookToResponse(book)))
+        .onErrorResume(error -> ServerResponse
+            .badRequest()
+            .bodyValue(new ErrorResponse(HttpStatus.BAD_REQUEST, error.getMessage())))
+        ;
   }
 
   public Mono<ServerResponse> getBook(ServerRequest request) {
@@ -47,7 +63,12 @@ public class BookHandler {
     return bookService.findBook(bookId)
         .flatMap(book -> ServerResponse
             .ok()
-            .bodyValue(mapper.bookToResponse(book)));
+            .bodyValue(mapper.bookToResponse(book)))
+        .onErrorResume(error -> ServerResponse
+            .badRequest()
+            .bodyValue(new ErrorResponse(HttpStatus.BAD_REQUEST,
+                error.getMessage())))
+        ;
   }
 
   public Mono<ServerResponse> getBooks(ServerRequest request) {
