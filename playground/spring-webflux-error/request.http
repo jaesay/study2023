@@ -1,0 +1,14 @@
+###
+GET http://localhost:8080/api/endpoint1
+
+###
+GET http://localhost:8080/api/endpoint2
+
+###
+GET http://localhost:8080/api/endpoint3
+
+###
+GET http://localhost:8080/api/endpoint4
+
+###
+GET http://localhost:8080/api/endpoint5
