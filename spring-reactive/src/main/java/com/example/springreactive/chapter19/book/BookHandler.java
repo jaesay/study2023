@@ -28,15 +28,15 @@ public class BookHandler {
         .flatMap(book -> ServerResponse
             .created(URI.create("/v5/books/" + book.getBookId()))
             .build())
-        .onErrorResume(BusinessLogicException.class, error -> ServerResponse
-            .badRequest()
-            .bodyValue(new ErrorResponse(HttpStatus.BAD_REQUEST,
-                error.getMessage())))
-        .onErrorResume(Exception.class, error ->
-            ServerResponse
-                .unprocessableEntity()
-                .bodyValue(
-                    new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, error.getMessage())))
+//        .onErrorResume(BusinessLogicException.class, error -> ServerResponse
+//            .badRequest()
+//            .bodyValue(new ErrorResponse(HttpStatus.BAD_REQUEST,
+//                error.getMessage())))
+//        .onErrorResume(Exception.class, error ->
+//            ServerResponse
+//                .unprocessableEntity()
+//                .bodyValue(
+//                    new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, error.getMessage())))
         ;
   }
 
@@ -51,9 +51,9 @@ public class BookHandler {
         })
         .flatMap(book -> ServerResponse.ok()
             .bodyValue(mapper.bookToResponse(book)))
-        .onErrorResume(error -> ServerResponse
-            .badRequest()
-            .bodyValue(new ErrorResponse(HttpStatus.BAD_REQUEST, error.getMessage())))
+//        .onErrorResume(error -> ServerResponse
+//            .badRequest()
+//            .bodyValue(new ErrorResponse(HttpStatus.BAD_REQUEST, error.getMessage())))
         ;
   }
 
@@ -64,10 +64,10 @@ public class BookHandler {
         .flatMap(book -> ServerResponse
             .ok()
             .bodyValue(mapper.bookToResponse(book)))
-        .onErrorResume(error -> ServerResponse
-            .badRequest()
-            .bodyValue(new ErrorResponse(HttpStatus.BAD_REQUEST,
-                error.getMessage())))
+//        .onErrorResume(error -> ServerResponse
+//            .badRequest()
+//            .bodyValue(new ErrorResponse(HttpStatus.BAD_REQUEST,
+//                error.getMessage())))
         ;
   }
 
