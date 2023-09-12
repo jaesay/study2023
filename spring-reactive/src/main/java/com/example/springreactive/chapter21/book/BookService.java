@@ -6,6 +6,7 @@ import static org.springframework.data.relational.core.query.Query.query;
 import com.example.springreactive.chapter21.exception.BusinessLogicException;
 import com.example.springreactive.chapter21.exception.ExceptionCode;
 import com.example.springreactive.chapter21.utils.CustomBeanUtils;
+import java.time.Duration;
 import java.util.List;
 import javax.validation.constraints.Positive;
 import lombok.NonNull;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
@@ -61,6 +63,13 @@ public class BookService {
               .collectSortedList((Book b1, Book b2) ->
                   (int) (b2.getBookId() - b1.getBookId()));
         });
+  }
+
+  public Flux<Book> streamingBooks() {
+    return template
+        .select(Book.class)
+        .all()
+        .delayElements(Duration.ofSeconds(2L));
   }
 
   private Tuple2<Long, Long> getSkipAndTake(long total, long movePage, long size) {
