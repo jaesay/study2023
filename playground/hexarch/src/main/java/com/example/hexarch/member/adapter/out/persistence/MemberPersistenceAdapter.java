@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @PersistenceAdapter
-public class MemberPersistenceAdapter implements FindMemberPort, SaveMemberPort {
+class MemberPersistenceAdapter implements FindMemberPort, SaveMemberPort {
 
   private final MemberRepository repository;
   private final MemberMapper memberMapper;

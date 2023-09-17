@@ -9,11 +9,11 @@ import reactor.core.publisher.Mono;
 
 @WebAdapter
 @RequiredArgsConstructor
-public class RegisterMemberHandler {
+class RegisterMemberHandler {
 
   private final RegisterMemberUseCase useCase;
 
-  public Mono<ServerResponse> registerMember(ServerRequest request) {
+  Mono<ServerResponse> registerMember(ServerRequest request) {
     // TODO HTTP 요청을 자바 객체로 매핑
     // TODO 권한 검사
     // TODO 입력 유효성 검증

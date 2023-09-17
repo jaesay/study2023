@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @WebAdapter
 @RequiredArgsConstructor
-public class GetMemberHandler {
+class GetMemberHandler {
 
   private final GetMemberQuery query;
 

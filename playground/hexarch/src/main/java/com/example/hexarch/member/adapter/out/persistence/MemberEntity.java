@@ -16,7 +16,7 @@ import org.springframework.data.relational.core.mapping.Column;
 @Getter
 @Setter
 @ToString
-public class MemberEntity {
+class MemberEntity {
 
   @Id
   @Column("member_id")

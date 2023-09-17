@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @QueryService
 @RequiredArgsConstructor
-public class GetMemberService implements GetMemberQuery {
+class GetMemberService implements GetMemberQuery {
 
   private final FindMemberPort findMemberPort;
 

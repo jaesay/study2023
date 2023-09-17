@@ -10,13 +10,13 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Configuration
 @RequiredArgsConstructor
-public class MemberRouter {
+class MemberRouter {
 
   private final GetMemberHandler getMemberHandler;
   private final RegisterMemberHandler registerMemberHandler;
 
   @Bean
-  public RouterFunction<ServerResponse> routeMember() {
+  RouterFunction<ServerResponse> routeMember() {
     return route()
         .GET("/members/{memberId}", getMemberHandler::getMember)
         .POST("/members", registerMemberHandler::registerMember)
