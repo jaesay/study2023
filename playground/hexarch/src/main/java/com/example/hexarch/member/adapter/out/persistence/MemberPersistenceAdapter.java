@@ -1,13 +1,13 @@
 package com.example.hexarch.member.adapter.out.persistence;
 
+import com.example.hexarch.common.PersistenceAdapter;
 import com.example.hexarch.member.application.port.out.FindMemberPort;
 import com.example.hexarch.member.application.port.out.SaveMemberPort;
 import com.example.hexarch.member.domain.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-@Component
+@PersistenceAdapter
 public class MemberPersistenceAdapter implements FindMemberPort, SaveMemberPort {
 
   private final MemberRepository repository;
