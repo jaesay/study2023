@@ -1,4 +1,4 @@
-package com.example.webfluxcacheable;
+package com.example.webfluxcacheable.conifg;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import java.util.List;

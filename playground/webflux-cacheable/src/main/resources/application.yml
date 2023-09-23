@@ -1,5 +1,5 @@
 caffeine:
   caches:
-    - name: memberCache
+    - name: coffeeCache
       expiryDurationTimeUnit: SECONDS
-      expiryDurationAmount: 1
+      expiryDurationAmount: 10
