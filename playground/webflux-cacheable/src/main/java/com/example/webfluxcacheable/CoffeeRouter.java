@@ -12,7 +12,7 @@ public class CoffeeRouter {
   @Bean
   public RouterFunction<?> getCoffeeRouter(GetCoffeeHandler handler) {
     return route()
-        .GET("/coffees/{coffeeId}", handler::getCoffee)
+        .GET("/v1/coffees/{coffeeId}", handler::getCoffee)
         .build();
   }
 }
