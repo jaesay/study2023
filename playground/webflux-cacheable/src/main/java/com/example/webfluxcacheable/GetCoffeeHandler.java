@@ -23,4 +23,15 @@ public class GetCoffeeHandler {
                 .bodyValue(coffee)
         );
   }
+
+  public Mono<ServerResponse> getCoffeeV2(ServerRequest request) {
+    String coffeeId = request.pathVariable("coffeeId");
+    return service.getCoffeeV2(Long.parseLong(coffeeId))
+        .flatMap(coffee ->
+            ServerResponse
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(coffee)
+        );
+  }
 }

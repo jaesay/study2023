@@ -2,4 +2,7 @@ caffeine:
   caches:
     - name: coffeeCache
       expiryDurationTimeUnit: SECONDS
-      expiryDurationAmount: 10
+      expiryDurationAmount: 60
+    - name: coffeeCacheV2
+      expiryDurationTimeUnit: MINUTES
+      expiryDurationAmount: 1

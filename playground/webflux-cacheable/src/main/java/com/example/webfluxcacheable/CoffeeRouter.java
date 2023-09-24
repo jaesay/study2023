@@ -13,6 +13,7 @@ public class CoffeeRouter {
   public RouterFunction<?> getCoffeeRouter(GetCoffeeHandler handler) {
     return route()
         .GET("/v1/coffees/{coffeeId}", handler::getCoffee)
+        .GET("/v2/coffees/{coffeeId}", handler::getCoffeeV2)
         .build();
   }
 }
