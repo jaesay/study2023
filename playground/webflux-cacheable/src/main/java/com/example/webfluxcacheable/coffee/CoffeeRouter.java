@@ -1,4 +1,4 @@
-package com.example.webfluxcacheable;
+package com.example.webfluxcacheable.coffee;
 
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 

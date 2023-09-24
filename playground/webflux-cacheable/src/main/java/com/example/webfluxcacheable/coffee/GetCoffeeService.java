@@ -1,4 +1,4 @@
-package com.example.webfluxcacheable;
+package com.example.webfluxcacheable.coffee;
 
 import static java.util.stream.Collectors.toMap;
 

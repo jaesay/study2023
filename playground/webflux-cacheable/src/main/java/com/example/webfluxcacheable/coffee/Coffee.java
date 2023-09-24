@@ -1,4 +1,4 @@
-package com.example.webfluxcacheable;
+package com.example.webfluxcacheable.coffee;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
