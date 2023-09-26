@@ -32,8 +32,9 @@ public class GetCoffeeService {
   }
 
   /**
-   * 이렇게 cache() operator에 ttl을 주면 카페인 캐시 기본 만료 정책에 따라 다음 조회까지 signal의 결괏값 (Coffee instance) 를 캐싱하는 것은 제외하고 Mono의 reference 만 가진다.
-   * 하지만 maintenance(BoundedLocalCache) 작업(e.g. 특정/새로운 엔트리 조회 등)을 하기 때문에 대부분의 경우 이 정도로 메모리 최적화할 필요는 없을 것 같다.
+   * 카페인 캐시를 포함한 대부분의 캐시 구현체는 데이터가 만료되면 바로 만료된 데이터를 제거하지 않는다. 따라서 cache()에 ttl을 안주면 Mono와 캐시된 시그널을 캐시하고 있게 된다.
+   * cache() operator에 ttl을 주면 Mono는 스프링 캐시에 만료 정책에 의해 관리되고 Mono 캐시된 시그널 결괏값(e.g. Coffee instance)은 cache() ttl이 지나면 사라진다.
+   * 하지만 캐시 구현체는 설정한 정책에 맞게 내부적으로 메모리를 잘 관리하기 때문에 대부분의 경우 이 정도의 최적화는 안해도 될 것 같다(BoundedLocalCache).
    */
   @Cacheable(cacheNames = "coffeeCacheV2", key = "#coffeeId")
   public Mono<Coffee> getCoffeeV2(long coffeeId) {
