@@ -2,8 +2,8 @@ package com.example.webfluxcacheable.coffee;
 
 import static java.util.stream.Collectors.toMap;
 
-import com.example.webfluxcacheable.conifg.CaffeineProperties;
-import com.example.webfluxcacheable.conifg.CaffeineProperties.CacheProperties;
+import com.example.webfluxcacheable.config.CaffeineProperties;
+import com.example.webfluxcacheable.config.CaffeineProperties.CacheProperties;
 import java.time.Duration;
 import java.util.Map;
 import java.util.function.Function;

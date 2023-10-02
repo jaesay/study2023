@@ -1,4 +1,4 @@
-package com.example.webfluxcacheable.conifg;
+package com.example.webfluxcacheable.config;
 
 import java.util.ArrayList;
 import java.util.List;

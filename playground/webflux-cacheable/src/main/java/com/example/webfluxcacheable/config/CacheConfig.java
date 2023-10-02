@@ -1,5 +1,6 @@
-package com.example.webfluxcacheable.conifg;
+package com.example.webfluxcacheable.config;
 
+import com.example.webfluxcacheable.config.CaffeineProperties;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import java.util.List;
 import java.util.stream.Collectors;
