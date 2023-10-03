@@ -5,3 +5,7 @@ Content-Type: application/json
 ###
 GET localhost:8080/v2/coffees/2
 Content-Type: application/json
+
+###
+GET localhost:8080/v3/coffees/3
+Content-Type: application/json

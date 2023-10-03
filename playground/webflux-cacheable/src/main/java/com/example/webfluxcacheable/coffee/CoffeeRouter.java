@@ -14,6 +14,7 @@ public class CoffeeRouter {
     return route()
         .GET("/v1/coffees/{coffeeId}", handler::getCoffee)
         .GET("/v2/coffees/{coffeeId}", handler::getCoffeeV2)
+        .GET("/v3/coffees/{coffeeId}", handler::getCoffeeV3)
         .build();
   }
 }

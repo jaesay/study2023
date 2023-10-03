@@ -2,6 +2,7 @@ package com.example.webfluxcacheable.coffee;
 
 import static java.util.stream.Collectors.toMap;
 
+import com.example.webfluxcacheable.cache.AsyncCacheable;
 import com.example.webfluxcacheable.config.CaffeineProperties;
 import com.example.webfluxcacheable.config.CaffeineProperties.CacheProperties;
 import java.time.Duration;
@@ -42,6 +43,11 @@ public class GetCoffeeService {
     return Mono.defer(() -> coffee(coffeeId)).cache(Duration.of(
         coffeeCache.getExpiryDurationAmount(),
         coffeeCache.getExpiryDurationTimeUnit().toChronoUnit()));
+  }
+
+  @AsyncCacheable(name = "coffeeCacheV3")
+  public Mono<Coffee> getCoffeeV3(long coffeeId) {
+    return Mono.defer(() -> coffee(coffeeId)).cache();
   }
 
   private Mono<Coffee> coffee(long coffeeId) {
