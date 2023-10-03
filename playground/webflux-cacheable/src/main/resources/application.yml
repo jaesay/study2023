@@ -6,3 +6,9 @@ caffeine:
     - name: coffeeCacheV2
       expiryDurationTimeUnit: MINUTES
       expiryDurationAmount: 1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
