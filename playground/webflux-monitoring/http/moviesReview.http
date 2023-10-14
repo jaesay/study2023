@@ -1,0 +1,64 @@
+### Review 1 저장
+POST http://localhost:8081/v1/reviews
+Content-Type: application/json
+
+{
+  "reviewId": 1,
+  "movieInfoId": 1,
+  "comment": "Excellent Movie",
+  "rating": 8.0
+}
+
+### Review 2 저장
+POST http://localhost:8081/v1/reviews
+Content-Type: application/json
+
+{
+  "reviewId": 2,
+  "movieInfoId": 2,
+  "comment": "Excellent Movie",
+  "rating": 8.0
+}
+
+### Review 3 저장
+POST http://localhost:8081/v1/reviews
+Content-Type: application/json
+
+{
+  "reviewId": null,
+  "movieInfoId": 1,
+  "comment": "Awesome Movie",
+  "rating": 9.0
+}
+
+### 전체 Review 조회
+GET http://localhost:8081/v1/reviews
+
+### MovieInfoId 1번 Review 조회
+GET http://localhost:8081/v1/reviews?movieInfoId=1
+
+### MovieInfoId 2번 Review 조회
+GET http://localhost:8081/v1/reviews?movieInfoId=2
+
+### ReviewId 1번 Review 수정
+PUT http://localhost:8081/v1/reviews/1
+Content-Type: application/json
+
+{
+  "reviewId": 1,
+  "movieInfoId": 1,
+  "comment": "Excellent Movie Update",
+  "rating": 8.5
+}
+
+### ReviewId 1번 Review 삭제
+DELETE http://localhost:8081/v1/reviews/1
+
+###
+
+
+
+
+
+
+

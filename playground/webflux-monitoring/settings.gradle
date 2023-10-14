@@ -1,0 +1,6 @@
+rootProject.name = 'webflux-monitoring'
+include 'movies-review-service'
+include 'movies-service'
+include 'movies-info-service'
+include 'reactive-programming-using-reactor'
+
