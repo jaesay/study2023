@@ -24,7 +24,12 @@ public class MoviesInfoRestClient {
   private final WebClient webClient;
   private final String moviesInfoUrl;
 
-  public MoviesInfoRestClient(WebClient webClient, @Value("${restClient.moviesInfoUrl}") String moviesInfoUrl) {
+//  public MoviesInfoRestClient(WebClient.Builder webClientBuilder, @Value("${restClient.moviesInfoUrl}") String moviesInfoUrl) {
+//    this.webClient = webClientBuilder.baseUrl(moviesInfoUrl).build();
+//    this.moviesInfoUrl = moviesInfoUrl;
+//  }
+
+    public MoviesInfoRestClient(WebClient webClient, @Value("${restClient.moviesInfoUrl}") String moviesInfoUrl) {
     this.webClient = webClient;
     this.moviesInfoUrl = moviesInfoUrl;
   }
