@@ -1,0 +1,10 @@
+webclient:
+  connectionTimeout: 2000
+  readTimeout: 2000
+  pool:
+    maxConnections: 1000
+    pendingAcquireMaxCount: 2000
+    maxIdleTime: 50s
+    maxLifeTime: 50s
+    evictInBackground: 100s
+    metricsEnabled: true

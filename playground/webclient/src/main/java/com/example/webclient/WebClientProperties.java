@@ -1,0 +1,17 @@
+package com.example.webclient;
+
+import java.time.Duration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties(prefix = "webclient")
+public record WebClientProperties(int connectionTimeout, int readTimeout, Pool pool) {
+
+  public record Pool(int maxConnections,
+                     int pendingAcquireMaxCount,
+                     Duration maxIdleTime,
+                     Duration maxLifeTime,
+                     Duration evictInBackground,
+                     boolean metricsEnabled) {
+
+  }
+}
