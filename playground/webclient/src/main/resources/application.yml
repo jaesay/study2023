@@ -8,3 +8,12 @@ webclient:
     maxLifeTime: 50s
     evictInBackground: 100s
     metricsEnabled: true
+
+client:
+  product:
+    baseUrl: http://127.0.0.1:9090
+
+logging:
+  level:
+    reactor:
+      netty: debug
