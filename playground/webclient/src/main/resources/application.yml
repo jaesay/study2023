@@ -1,16 +1,26 @@
 webclient:
   connectionTimeout: 2000
   readTimeout: 2000
-  pool:
-    maxConnections: 1000
-    pendingAcquireMaxCount: 2000
-    maxIdleTime: 50s
-    maxLifeTime: 50s
-    evictInBackground: 100s
-    metricsEnabled: true
+  pools:
+    default:
+      maxConnections: 1000
+      pendingAcquireMaxCount: 2000
+      maxIdleTime: 50s
+      maxLifeTime: 50s
+      evictInBackground: 100s
+      metricsEnabled: true
+    review:
+      maxConnections: 1500
+      pendingAcquireMaxCount: 3000
+      maxIdleTime: 50s
+      maxLifeTime: 50s
+      evictInBackground: 100s
+      metricsEnabled: true
 
 client:
   product:
+    baseUrl: http://127.0.0.1:9090
+  review:
     baseUrl: http://127.0.0.1:9090
 
 logging:

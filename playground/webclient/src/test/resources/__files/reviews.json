@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "productId": 1,
+    "comment": "nice"
+  },
+  {
+    "id": 2,
+    "productId": 1,
+    "comment": "good"
+  }
+]
