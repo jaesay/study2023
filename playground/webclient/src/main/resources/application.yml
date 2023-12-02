@@ -23,7 +23,7 @@ client:
   world:
     baseUrl: http://127.0.0.1:9090
 
-logging:
-  level:
-    reactor:
-      netty: debug
+#logging:
+#  level:
+#    reactor:
+#      netty: debug
