@@ -26,7 +26,7 @@ class HelloClientTest {
   HelloClient helloClient;
 
   @Test
-  void getProductTest() {
+  void getHelloTest() {
     stubFor(get(urlEqualTo("/v1/hello"))
         .willReturn(aResponse()
             .withStatus(HttpStatus.OK.value())

@@ -5,8 +5,6 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -28,7 +26,7 @@ class WorldClientTest {
   WorldClient worldClient;
 
   @Test
-  void getReviews() {
+  void getWorldTest() {
     stubFor(get(urlEqualTo("/v1/world"))
         .willReturn(aResponse()
             .withStatus(HttpStatus.OK.value())
