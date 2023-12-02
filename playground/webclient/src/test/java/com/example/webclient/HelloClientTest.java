@@ -20,27 +20,24 @@ import reactor.test.StepVerifier;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureWireMock(port = 9090)
-class ProductClientTest {
+class HelloClientTest {
 
   @Autowired
-  ProductClient productClient;
+  HelloClient helloClient;
 
   @Test
   void getProductTest() {
-    long productId = 1L;
-    stubFor(get(urlEqualTo("/v1/products/" + productId))
+    stubFor(get(urlEqualTo("/v1/hello"))
         .willReturn(aResponse()
             .withStatus(HttpStatus.OK.value())
-            .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .withBodyFile("product.json")
+            .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+            .withBodyFile("hello.txt")
         ));
 
-    StepVerifier.create(productClient.getProduct(productId))
-        .assertNext(productDto -> {
-          assertThat(productDto.id()).isEqualTo(productId);
-        })
+    StepVerifier.create(helloClient.getHello())
+        .assertNext(res -> assertThat(res).isEqualTo("Hello"))
         .verifyComplete();
 
-    WireMock.verify(1, getRequestedFor(urlEqualTo("/v1/products/" + productId)));
+    WireMock.verify(1, getRequestedFor(urlEqualTo("/v1/hello")));
   }
 }

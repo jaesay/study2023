@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
-import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,8 +30,8 @@ public class WebClientConfig {
 
   @Bean
   public ReactorResourceFactory resourceFactory() {
-    Pool pool = props.pools().get("review");
-    ConnectionProvider provider = ConnectionProvider.builder("webclient")
+    Pool pool = props.pools().get("world");
+    ConnectionProvider provider = ConnectionProvider.builder("world-webclient")
         .maxConnections(pool.maxConnections())
         .pendingAcquireMaxCount(pool.pendingAcquireMaxCount())
         .maxIdleTime(pool.maxIdleTime())
@@ -48,7 +47,7 @@ public class WebClientConfig {
   }
 
   @Bean
-  public WebClient reviewWebClient() {
+  public WebClient worldWebClient() {
     ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
         .featuresToEnable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
         .serializationInclusion(Include.NON_NULL)
@@ -85,7 +84,7 @@ public class WebClientConfig {
         .build();
 
     Pool pool = props.pools().get("default");
-    ConnectionProvider provider = ConnectionProvider.builder("webclient")
+    ConnectionProvider provider = ConnectionProvider.builder("default-webclient")
         .maxConnections(pool.maxConnections())
         .pendingAcquireMaxCount(pool.pendingAcquireMaxCount())
         .maxIdleTime(pool.maxIdleTime())

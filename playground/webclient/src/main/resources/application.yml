@@ -9,7 +9,7 @@ webclient:
       maxLifeTime: 50s
       evictInBackground: 100s
       metricsEnabled: true
-    review:
+    world:
       maxConnections: 1500
       pendingAcquireMaxCount: 3000
       maxIdleTime: 50s
@@ -18,9 +18,9 @@ webclient:
       metricsEnabled: true
 
 client:
-  product:
+  hello:
     baseUrl: http://127.0.0.1:9090
-  review:
+  world:
     baseUrl: http://127.0.0.1:9090
 
 logging:

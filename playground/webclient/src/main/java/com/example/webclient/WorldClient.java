@@ -6,23 +6,24 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Component
-public class ProductClient {
+public class WorldClient {
 
-  private final WebClient webClient;
+  private final WebClient client;
   private final String baseUrl;
 
-  public ProductClient(WebClient webClient, @Value("${client.product.baseUrl}") String baseUrl) {
-    this.webClient = webClient;
+  public WorldClient(WebClient worldWebClient,
+      @Value("${client.world.baseUrl}") String baseUrl) {
+    this.client = worldWebClient;
     this.baseUrl = baseUrl;
   }
 
-  public Mono<ProductDto> getProduct(long productId) {
-    return webClient
+  public Mono<String> getWorld() {
+    return client
         .get()
         .uri(baseUrl, uriBuilder -> uriBuilder
-            .path("/v1/products/{productId}")
-            .build(productId))
+            .path("/v1/world")
+            .build())
         .retrieve()
-        .bodyToMono(ProductDto.class);
+        .bodyToMono(String.class);
   }
 }
