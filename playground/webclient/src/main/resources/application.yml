@@ -1,21 +1,13 @@
 webclient:
   connectionTimeout: 2000
   readTimeout: 2000
-  pools:
-    default:
-      maxConnections: 1000
-      pendingAcquireMaxCount: 2000
-      maxIdleTime: 50s
-      maxLifeTime: 50s
-      evictInBackground: 100s
-      metricsEnabled: true
-    world:
-      maxConnections: 1500
-      pendingAcquireMaxCount: 3000
-      maxIdleTime: 50s
-      maxLifeTime: 50s
-      evictInBackground: 100s
-      metricsEnabled: true
+  pool:
+    maxConnections: 1000
+    pendingAcquireMaxCount: 2000
+    maxIdleTime: 50s
+    maxLifeTime: 50s
+    evictInBackground: 100s
+    metricsEnabled: true
 
 client:
   hello:
@@ -23,7 +15,7 @@ client:
   world:
     baseUrl: http://127.0.0.1:9090
 
-#logging:
-#  level:
-#    reactor:
-#      netty: debug
+logging:
+  level:
+    reactor:
+      netty: debug

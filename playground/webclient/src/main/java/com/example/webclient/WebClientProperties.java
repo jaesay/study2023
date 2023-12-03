@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "webclient")
-public record WebClientProperties(int connectionTimeout, int readTimeout, Map<String, Pool> pools) {
+public record WebClientProperties(int connectionTimeout, int readTimeout, Pool pool) {
 
   public record Pool(int maxConnections,
                      int pendingAcquireMaxCount,

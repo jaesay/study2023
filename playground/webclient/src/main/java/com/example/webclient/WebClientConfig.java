@@ -1,6 +1,5 @@
 package com.example.webclient;
 
-import com.example.webclient.WebClientProperties.Pool;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,14 +29,13 @@ public class WebClientConfig {
 
   @Bean
   public ReactorResourceFactory resourceFactory() {
-    Pool pool = props.pools().get("world");
-    ConnectionProvider provider = ConnectionProvider.builder("world-webclient")
-        .maxConnections(pool.maxConnections())
-        .pendingAcquireMaxCount(pool.pendingAcquireMaxCount())
-        .maxIdleTime(pool.maxIdleTime())
-        .maxLifeTime(pool.maxLifeTime())
-        .evictInBackground(pool.evictInBackground())
-        .metrics(pool.metricsEnabled())
+    ConnectionProvider provider = ConnectionProvider.builder("custom-global")
+        .maxConnections(props.pool().maxConnections())
+        .pendingAcquireMaxCount(props.pool().pendingAcquireMaxCount())
+        .maxIdleTime(props.pool().maxIdleTime())
+        .maxLifeTime(props.pool().maxLifeTime())
+        .evictInBackground(props.pool().evictInBackground())
+        .metrics(props.pool().metricsEnabled())
         .build();
 
     ReactorResourceFactory factory = new ReactorResourceFactory();
@@ -47,7 +45,7 @@ public class WebClientConfig {
   }
 
   @Bean
-  public WebClient worldWebClient() {
+  public WebClient webClient2() {
     ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
         .featuresToEnable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
         .serializationInclusion(Include.NON_NULL)
@@ -74,7 +72,6 @@ public class WebClientConfig {
         .build();
   }
 
-
   @Bean
   @Primary
   public WebClient webClient() {
@@ -83,14 +80,13 @@ public class WebClientConfig {
         .serializationInclusion(Include.NON_NULL)
         .build();
 
-    Pool pool = props.pools().get("default");
-    ConnectionProvider provider = ConnectionProvider.builder("default-webclient")
-        .maxConnections(pool.maxConnections())
-        .pendingAcquireMaxCount(pool.pendingAcquireMaxCount())
-        .maxIdleTime(pool.maxIdleTime())
-        .maxLifeTime(pool.maxLifeTime())
-        .evictInBackground(pool.evictInBackground())
-        .metrics(pool.metricsEnabled())
+    ConnectionProvider provider = ConnectionProvider.builder("webclient")
+        .maxConnections(props.pool().maxConnections())
+        .pendingAcquireMaxCount(props.pool().pendingAcquireMaxCount())
+        .maxIdleTime(props.pool().maxIdleTime())
+        .maxLifeTime(props.pool().maxLifeTime())
+        .evictInBackground(props.pool().evictInBackground())
+        .metrics(props.pool().metricsEnabled())
         .build();
 
     HttpClient httpClient = HttpClient.create(provider)

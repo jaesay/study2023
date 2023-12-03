@@ -11,9 +11,9 @@ public class WorldClient {
   private final WebClient client;
   private final String baseUrl;
 
-  public WorldClient(WebClient worldWebClient,
+  public WorldClient(WebClient webClient2,
       @Value("${client.world.baseUrl}") String baseUrl) {
-    this.client = worldWebClient;
+    this.client = webClient2;
     this.baseUrl = baseUrl;
   }
 
