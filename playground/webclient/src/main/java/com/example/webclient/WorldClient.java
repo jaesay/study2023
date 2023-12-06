@@ -1,6 +1,7 @@
 package com.example.webclient;
 
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
+import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -28,5 +29,16 @@ public class WorldClient {
             .build())
         .retrieve()
         .bodyToMono(String.class);
+  }
+
+  public Mono<String> getWorld2() {
+    return client
+        .get()
+        .uri(baseUrl, uriBuilder -> uriBuilder
+            .path("/v1/world")
+            .build())
+        .retrieve()
+        .bodyToMono(String.class)
+        .timeout(Duration.ofSeconds(1));
   }
 }

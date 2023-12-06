@@ -23,3 +23,14 @@ logging:
       netty: debug
 
 management.endpoints.web.exposure.include: "*"
+
+resilience4j.timelimiter:
+  configs:
+    default:
+      timeoutDuration: 2s
+      cancelRunningFuture: true
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 1

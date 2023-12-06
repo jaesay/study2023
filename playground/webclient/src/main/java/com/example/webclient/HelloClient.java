@@ -1,5 +1,6 @@
 package com.example.webclient;
 
+import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import java.time.Duration;
 import lombok.extern.slf4j.Slf4j;
@@ -41,5 +42,37 @@ public class HelloClient {
         .retrieve()
         .bodyToMono(String.class)
         .timeout(Duration.ofSeconds(2), Mono.defer(() -> Mono.just("Hi")));
+  }
+
+  public Mono<String> getHello3() {
+    return client
+        .get()
+        .uri(baseUrl, uriBuilder -> uriBuilder.path("/v1/hello").build())
+        .retrieve()
+        .bodyToMono(String.class)
+        .retry(1)
+        .timeout(Duration.ofSeconds(2));
+  }
+
+  public Mono<String> getHello4() {
+    return client
+        .get()
+        .uri(baseUrl, uriBuilder -> uriBuilder.path("/v1/hello").build())
+        .retrieve()
+        .bodyToMono(String.class)
+        .timeout(Duration.ofSeconds(1))
+        .retry(1);
+  }
+
+  @TimeLimiter(name = "hello")
+//  @Retry(name = "hello") // circuit breaker와 time limiter 만
+  public Mono<String> getHello5() {
+    return client
+        .get()
+        .uri(baseUrl, uriBuilder -> uriBuilder.path("/v1/hello").build())
+        .retrieve()
+        .bodyToMono(String.class)
+        .retry(1)
+        ;
   }
 }

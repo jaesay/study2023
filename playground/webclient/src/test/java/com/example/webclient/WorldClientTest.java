@@ -10,6 +10,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import java.util.concurrent.TimeoutException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,11 @@ class WorldClientTest {
 
   @Autowired
   WorldClient worldClient;
+
+  @BeforeEach
+  void setUp() {
+    WireMock.reset();
+  }
 
   @Test
   void getWorldTest() {
@@ -53,6 +59,22 @@ class WorldClientTest {
         ));
 
     StepVerifier.create(worldClient.getWorld())
+        .verifyError(TimeoutException.class);
+
+    WireMock.verify(1, getRequestedFor(urlEqualTo("/v1/world")));
+  }
+
+  @Test
+  void timeoutTest2() {
+    stubFor(get(urlEqualTo("/v1/world"))
+        .willReturn(aResponse()
+            .withFixedDelay(2_000)
+            .withStatus(HttpStatus.OK.value())
+            .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+            .withBodyFile("world.txt")
+        ));
+
+    StepVerifier.create(worldClient.getWorld2())
         .verifyError(TimeoutException.class);
 
     WireMock.verify(1, getRequestedFor(urlEqualTo("/v1/world")));
