@@ -40,4 +40,21 @@ class HelloClientTest {
 
     WireMock.verify(1, getRequestedFor(urlEqualTo("/v1/hello")));
   }
+
+  @Test
+  void timeoutTest() {
+    stubFor(get(urlEqualTo("/v1/hello"))
+        .willReturn(aResponse()
+            .withFixedDelay(1_000)
+            .withStatus(HttpStatus.OK.value())
+            .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+            .withBodyFile("hello.txt")
+        ));
+
+    StepVerifier.create(helloClient.getHello())
+        .assertNext(res -> assertThat(res).isEqualTo("Hi"))
+        .verifyComplete();
+
+    WireMock.verify(1, getRequestedFor(urlEqualTo("/v1/hello")));
+  }
 }

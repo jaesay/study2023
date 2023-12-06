@@ -1,5 +1,6 @@
 package com.example.webclient;
 
+import java.time.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class HiClient {
         .get()
         .uri(baseUrl, uriBuilder -> uriBuilder.path("/v1/hi").build())
         .retrieve()
-        .bodyToMono(String.class);
+        .bodyToMono(String.class)
+        .timeout(Duration.ofSeconds(3));
   }
 }

@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
+import java.util.concurrent.TimeoutException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,6 +38,22 @@ class HiClientTest {
     StepVerifier.create(hiClient.getHi())
         .assertNext(res -> assertThat(res).isEqualTo("Hi"))
         .verifyComplete();
+
+    WireMock.verify(1, getRequestedFor(urlEqualTo("/v1/hi")));
+  }
+
+  @Test
+  void timeoutTest() {
+    stubFor(get(urlEqualTo("/v1/hi"))
+        .willReturn(aResponse()
+            .withFixedDelay(3_000)
+            .withStatus(HttpStatus.OK.value())
+            .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE)
+            .withBodyFile("hi.txt")
+        ));
+
+    StepVerifier.create(hiClient.getHi())
+        .verifyError(TimeoutException.class);
 
     WireMock.verify(1, getRequestedFor(urlEqualTo("/v1/hi")));
   }

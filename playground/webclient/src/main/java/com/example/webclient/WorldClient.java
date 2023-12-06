@@ -1,5 +1,6 @@
 package com.example.webclient;
 
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,6 +18,8 @@ public class WorldClient {
     this.baseUrl = baseUrl;
   }
 
+  // resilience4j-reactor(TimeLimiterOperator)를 통해 timeout() operator가 감싸지게 된다.
+  @TimeLimiter(name = "world")
   public Mono<String> getWorld() {
     return client
         .get()
