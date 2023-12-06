@@ -1,6 +1,7 @@
 package com.example.webclient;
 
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
+import java.time.Duration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,5 +32,14 @@ public class HelloClient {
   private Mono<String> fallback(Throwable throwable) {
     log.error(throwable.getMessage());
     return Mono.just("Hi");
+  }
+
+  public Mono<String> getHello2() {
+    return client
+        .get()
+        .uri(baseUrl, uriBuilder -> uriBuilder.path("/v1/hello").build())
+        .retrieve()
+        .bodyToMono(String.class)
+        .timeout(Duration.ofSeconds(2), Mono.defer(() -> Mono.just("Hi")));
   }
 }
