@@ -1,4 +1,4 @@
-package reactor_single_threaded.reactor;
+package reactor_single_threaded;
 
 public interface ChannelHandler {
 

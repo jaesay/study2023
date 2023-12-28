@@ -1,4 +1,4 @@
-package reactor_single_threaded.reactor;
+package reactor_single_threaded;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -8,7 +8,6 @@ import java.nio.channels.ServerSocketChannel;
 import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import reactor_single_threaded.EchoHandler;
 
 /**
  * 이벤트 루프를 통해 준비된 이벤트를 반복하고 해당 핸들러에 디스패치

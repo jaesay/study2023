@@ -6,7 +6,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.LinkedList;
-import reactor_single_threaded.reactor.ChannelHandler;
 
 public class EchoHandler implements ChannelHandler {
 
