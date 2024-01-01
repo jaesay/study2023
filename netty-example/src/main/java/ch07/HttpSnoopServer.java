@@ -9,7 +9,6 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
-import java.io.File;
 import javax.net.ssl.SSLException;
 
 public final class HttpSnoopServer {
@@ -19,10 +18,10 @@ public final class HttpSnoopServer {
     SslContext sslCtx = null;
 
     try {
-      File certChainFile = new File("netty.crt");
-      File keyFile = new File("privatekey.pem");
-
-      sslCtx = SslContextBuilder.forServer(certChainFile, keyFile).build();
+      sslCtx = SslContextBuilder.forServer(
+          ClassLoader.getSystemResourceAsStream("netty.crt"),
+          ClassLoader.getSystemResourceAsStream("privatekey.pem")
+      ).build();
     }
     catch (SSLException e) {
       e.printStackTrace();
