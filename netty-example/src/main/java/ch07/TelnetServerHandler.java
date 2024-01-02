@@ -51,7 +51,7 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> { /
   }
 
   /**
-   * channelReadComplete 이벤트는 channelRead0 이벤트가 완료되면 호추ㅜㄹ되는 이벤트이다.
+   * channelReadComplete 이벤트는 channelRead0 이벤트가 완료되면 호출되는 메서드이다.
    * 여기서 ChannelHandlerContext의 flush 메서드를 사용하여 채널에 기록된 데이터를 클라이언트로 즉시 전송한다.
    */
   @Override
