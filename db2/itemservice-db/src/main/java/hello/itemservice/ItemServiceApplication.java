@@ -1,13 +1,12 @@
 package hello.itemservice;
 
-import hello.itemservice.config.*;
+import hello.itemservice.config.JdbcTemplateV3Config;
 import hello.itemservice.repository.ItemRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
-
 
 //@Import(MemoryConfig.class)
 //@Import(JdbcTemplateV1Config.class)
@@ -25,5 +24,4 @@ public class ItemServiceApplication {
 	public TestDataInit testDataInit(ItemRepository itemRepository) {
 		return new TestDataInit(itemRepository);
 	}
-
 }
